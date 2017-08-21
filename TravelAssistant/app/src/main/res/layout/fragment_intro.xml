@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="10"
+    tools:context="proyect.travelassistant.fragments.FragmentIntro"
+    android:background="@color/colorBackgroundCarrousel">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_up_intro"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="4"
+        android:background="@color/colorBackgroundCarrousel" />
+
+    <LinearLayout
+        android:id="@+id/vp_up_intro_no_internet"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+
+        android:orientation="vertical">
+
+
+        <Button
+            android:id="@+id/buttonReloadIntro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@color/colorBackgroundCarrousel"
+            android:drawableLeft="@drawable/reload"
+            android:padding="10dp"
+            android:text="@string/intro_reload"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="normal" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:layout_weight="4"
+        android:orientation="vertical"
+        android:weightSum="10">
+
+        <Button
+            android:id="@+id/buttonHomeSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/custom_btn"
+            android:drawableLeft="@drawable/btn_search"
+            android:padding="10dp"
+            android:text="@string/intro_go_search"
+            android:textColor="@android:color/white"
+            android:textStyle="normal|bold" />
+
+        <Button
+            android:id="@+id/buttonHomeHistorical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/custom_btn"
+            android:drawableLeft="@drawable/btn_historical"
+            android:padding="10dp"
+            android:text="@string/intro_go_historical"
+            android:textColor="@android:color/white"
+            android:textStyle="normal|bold" />
+
+        <Button
+            android:id="@+id/buttonHomeHelp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/custom_btn"
+            android:drawableLeft="@drawable/btn_help"
+            android:padding="10dp"
+            android:text="@string/intro_go_help"
+            android:textColor="@android:color/white"
+            android:textStyle="normal|bold" />
+
+    </LinearLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_down_intro"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="2"
+        android:padding="10dp"
+        android:background="@color/colorBackgroundCarrousel"
+        android:clickable="false" />
+</LinearLayout>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#514D4D</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#1D1D1D</color>
+    <color name="darkButtonGray">#2E2E2E</color>
+    <color name="activityBackground">#E6E6E6</color>
+    <color name="activityBackground_2">#ffffff</color>
+    <color name="tab_select">#ffffff</color>
+    <color name="tab_unselect">#A29797</color>
+    <color name="colorTexts">#2A120A</color>
+
+    <color name="colorCat_00">#FF4000</color>
+    <color name="colorCat_01">#8A0808</color>
+    <color name="colorCat_02">#8A4B08</color>
+    <color name="colorCat_03">#38610B</color>
+    <color name="colorCat_04">#298A08</color>
+    <color name="colorCat_05">#8A0886</color>
+    <color name="colorCat_06">#B404AE</color>
+    <color name="colorCat_07">#B4045F</color>
+    <color name="colorCat_08">#08298A</color>
+    <color name="colorCat_09">#0174DF</color>
+    <color name="colorCat_10">#01A9DB</color>
+    <color name="colorCat_11">#61380B</color>
+    <color name="colorCat_12">#886A08</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="textBase">#FFFFFF</color>
+    <color name="itemMenuSel">#DBA901</color>
+    <color name="colorLinkEmail">#045FB4</color>
+    <color name="colorLinkPhone">#0B610B</color>
+    <color name="colorBackgroundCarrousel">#D8D8D8</color>
+    <color name="colorItemCarrousel">#FFFFFF</color>
+    <color name="colorHelp">#424242</color>
+
+</resources>

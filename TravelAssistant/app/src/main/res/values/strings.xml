@@ -1,0 +1,249 @@
+<resources>
+    <!-- http://www.worldweatheronline.com -->
+    <string name="key">03d3859c366c45e9aa0173242171707</string>
+
+    <!-- https://openweathermap.org/ -->
+    <string name="appid">9c0780d686918b84c38573f287a650ad</string>
+    <string name="urlIcon">http://openweathermap.org/img/w/</string>
+
+    <string name="app_name">Travel Assistant</string>
+    <string name="navigation_drawer_open">Abrir navigation drawer</string>
+    <string name="navigation_drawer_close">Cerrar navigation drawer</string>
+    <string name="menu">Menú</string>
+    <string name="menu_item1">Home</string>
+    <string name="menu_item2">Nueva consulta</string>
+    <string name="menu_item3">Historial de consultas</string>
+    <string name="menu_item4">Editar Recomendaciones</string>
+    <string name="menu_item5">Restaurar Recomendaciones</string>
+    <string name="menu_item6">Guía de uso</string>
+    <string name="menu_item7">Contacto</string>
+
+    <!-- INTRO -->
+    <string name="intro_go_search">Nueva consulta</string>
+    <string name="intro_go_historical">Historial</string>
+    <string name="intro_go_help">Guía de uso</string>
+    <string name="intro_reload">Información meteorológica no disponible. Reintentar.</string>
+    <!-- CARROUSEL -->
+    <string name="itemcarrousel_minWeather">Temp. Min:</string>
+    <string name="itemcarrousel_maxWeather">Temp. Max:</string>
+    <string name="itemcarrousel_humidity">Humedad:</string>
+
+    <!-- SEARCH SCREEN -->
+    <string name="search_destiny">Indica el destino: (usa el buscador o el mapa)</string>
+    <string name="search">Buscar</string>
+    <string name="travel_duration">Duración del viaje:</string>
+    <string name="housing_type">Tipo de alojamiento:</string>
+    <string name="travel_reason">Motivo del viaje:</string>
+    <string name="transport_type">Tipo de transporte:</string>
+    <string name="obtain_recommendations">Obtener recomendaciones</string>
+    <string name="loading">Cargando</string>
+    <string name="title_error">Todos los campos son obligatorios</string>
+    <string name="text_error">"Por favor introduzca el destino de su viaje"</string>
+    <string name="accept">Aceptar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="exit">Salir</string>
+    <string name="reset">Reintentar</string>
+    <string name="title_error_service">Error</string>
+    <string name="text_error_service">"En servicio climatológico no está disponible, por favor inténtelo más tarde."</string>
+
+    <string name="title_error_red">Error de red</string>
+    <string name="text_error_red">"No hay acceso a internet. Esta operativa no está disponible."</string>
+
+    <!-- RESULTS SCREEN -->
+    <string name="title_tab1">Tiempo Histórico</string>
+    <string name="title_tab2">Tiempo en tu viaje</string>
+    <string name="title_tab3">Recomendaciones</string>
+
+    <string name="url_weather">Tiempo ofrecido por http://www.worldweatheronline.com</string>
+
+    <string name="month_1">Enero</string>
+    <string name="month_2">Febrero</string>
+    <string name="month_3">Marzo</string>
+    <string name="month_4">Abril</string>
+    <string name="month_5">Mayo</string>
+    <string name="month_6">Junio</string>
+    <string name="month_7">Julio</string>
+    <string name="month_8">Agosto</string>
+    <string name="month_9">Septiembre</string>
+    <string name="month_10">Octubre</string>
+    <string name="month_11">Noviembre</string>
+    <string name="month_12">Diciembre</string>
+    <string name="weather_today">Tiempo actual</string>
+    <string name="last_update">Última actualización:</string>
+    <string name="temperature">Temperatura:</string>
+    <string name="wind">Viento:</string>
+    <string name="humidity">Humedad:</string>
+    <string name="thermal_sensation">Sensación térmica:</string>
+
+    <string name="empty_field">--</string>
+
+    <!-- HELP SCREEN -->
+    <string name="use_app_title">¿Cómo usar esta App?</string>
+    <string name="use_app_text">TravelAssistan busca información sobre el clima de su destino vacacacional, y en función de los resultados y de su tipo de viaje, le ofrece recomendaciones para que no olvide nada en su maleta.\n\n
+    La experiencia es personalizable, de forma que las recomendaciones que la aplicación le ofrece. se adaptaran exáctamente a lo que necesite.\n\n
+    Su uso es fácil e intuitivo, pero si tiene alguna duda no dude en contactar con el equipo de desarrollo de Travel Assitant.</string>
+    Para que el funcionamiento de la aplicación sea óptimo es necesario tener conexión a internet.
+    <string name="use_app_expl_1">Con la sección \"NUEVA CONSULTA\" podrás obtener nuevas recomendaciones.\n\n
+    Para que la aplicación pueda aconsejarle de forma precisa, es necesario que introduzca una serie de parámetros, tales como la duración o el motivo del viaje.\n\n
+    Esta información no se comparte con ninguna empresa o entidad externa, y su única finalidad es aportarle recomendaciones más efectivas.\n\n
+    Si la búsqueda ha tenido éxito podrá observar un listado con las recomendaciones para su viaje en función de los parámetros especificados.\n\n
+    Además podrá consultar la información detalla sobre el clima en los días de su viaje, así como un histórico del clima por meses para la localización seleccionada.</string>
+    <string name="use_app_expl_2">Con la sección \"VER HISTORIAL DE CONSULTAS\" podrás consultar resultados de búsquedas anteriores.\n\n
+    Puesto que la información meteorológica es cambiante, en el historial simplemente verá un resumen de la información que se obtuvo en el momento de la búsqueda, haciendo especial hincapié en su lista de recomendaciones.\n\n
+    Cualquier elemento que marque en la lista será almacenado como "Realizado", para que pueda hacer un seguimiento de lo que tiene y de lo que le falta por incluir en su equipaje.\n\n
+    Para que la aplicación no ocupe demasiado espacio en su dispositivo, se almacenarán un máximo de 10 búsquedas. Si se alcanza esa cifra, cuando se realice una nueva consulta, se borrará la búsqueda almacenada más antigua. \n\n
+    Si usted lo desea puede borrar sus búsquedas guardadas manualmente.</string>
+    <string name="use_app_expl_3">Con la sección \"EDITAR RECOMENDACIONES\" puedes crear tus propias recomendaciones  o modificar las ya existentes para que la app las incluya en sus resultados.</string>
+    <string name="use_app_expl_4">Con la sección \"RESTAURAR RECOMENDACIONES\" retornarás la aplicación a su estado inicial.\n\n
+        *IMPORTANTE:Se eliminarán todas las recomendaciones personalizadas y el historial de consultas.</string>
+    <string name="use_app_expl_weather">Toda la información climatológica es ofrecida por http://www.worldweatheronline.com y https://openweathermap.org</string>
+    <string name="use_app_expl_help">Si desea realizar cualquier comentario acerca del funcionamiento de la APP, acceda a la sección \"CONTACTO\".</string>
+
+    <!-- RECOMS -->
+    <string name="title_recom_0">"Recomendaciones básicas:"</string>
+    <string name="title_recom_1">"Has indicado que tu viaje durará menos de 3 días, deberías tener en cuenta:"</string>
+    <string name="title_recom_2">"Has indicado que tu viaje durará entre 4 y 7 días, deberías tener en cuenta:"</string>
+    <string name="title_recom_3">"Es un viaje de placer:"</string>
+    <string name="title_recom_4">"El viaje es por trabajo."</string>
+    <string name="title_recom_5">"Vas a un Hotel/Hostal:"</string>
+    <string name="title_recom_6">"Has decidido alojarte en una casa de alquiler, quizás necesites:"</string>
+    <string name="title_recom_7">"Te alojaras en tu casa (o en la de un amigo/familiar)."</string>
+    <string name="title_recom_8">"En algunos momentos de tu viaje puede que llueva, nieve o granice."</string>
+    <string name="title_recom_9">"Recomendaciones para bajas temperaturas:"</string>
+    <string name="title_recom_10">"Recomendaciones para altas temperaturas:"</string>
+    <string name="title_recom_11">"Viajarás en tu propio vehículo."</string>
+    <string name="title_recom_12">"Tienes plaza en un Avión, Barco, Tren o Autobús."</string>
+
+    <string name="critery_1">"1 a 3 días"</string>
+    <string name="critery_2">"4 a 7 días"</string>
+    <string name="critery_3">"Ocio"</string>
+    <string name="critery_4">"Trabajo"</string>
+    <string name="critery_5">"Hotel/Hostal"</string>
+    <string name="critery_6">"Casa en alquiler"</string>
+    <string name="critery_7">"Casa propia"</string>
+    <string name="critery_11">"Avión, barco, tren, autobús"</string>
+    <string name="critery_12">"Vehículo propio"</string>
+
+    <string name="title_weather">"Recomendaciones según la temperatura esperada:"</string>
+    <string name="title_recom_weather_rain">"Se esperan precipitaciones."</string>
+    <string name="title_recom_weather_cold">"Habrá bajas temperaturas."</string>
+    <string name="title_recom_weather_hot">"Habrá altas temperaturas."</string>
+    <string name="title_recom_no_recom">"Se esperan temperaturas suaves, no hay avisos reseñables."</string>
+
+    <!-- EDIT RECOMS -->
+    <string name="filed_text_title">Texto:</string>
+    <string name="field_category_title">Categoria:</string>
+    <string name="filed_visibility_title">Visibilidad:</string>
+    <string name="button_cancel">Cancelar</string>
+    <string name="button_save">Guardar</string>
+
+    <string name="title_alert_save">Guardar Recomendación</string>
+    <string name="text_alert_save">"¿Está seguro que deseas realizar los cambios?"</string>
+
+    <string name="title_alert_desc">Campo vacío</string>
+    <string name="text_alert_desc">"El campo Texto debe estar relleno."</string>
+
+    <string name="title_alert_delete">Borrar Recomendación</string>
+    <string name="text_alert_delete">"¿Está seguro que desea borrar la recomendación?"</string>
+
+    <string name="del">Borrar</string>
+    <string name="add">Añadir</string>
+
+    <!-- RESTORE RECOMS -->
+    <string name="restore_text1">La restauración de las recomendaciones ha sido llevada a cabo con éxito.</string>
+    <string name="restore_text2">¿Qué desea hacer ahora?</string>
+    <string name="button_go_home">Home</string>
+    <string name="button_go_edit">Editar recomendaciones</string>
+    <string name="button_go_search">Nueva consulta</string>
+
+
+    <!-- ADD RECOMS -->
+    <string name="title_alert_create">Crear Recomendación</string>
+    <string name="text_alert_create">"¿Está seguro que deseas añadir esta recomendación?"</string>
+
+    <!-- HISTORICAL -->
+    <string name="text_blank_fragment">El historial de búsquedas está vacío</string>
+    <string name="update_button">Actualizar previsión</string>
+    <string name="duration_travel_hist">El viaje durará aproximádamente</string>
+    <string name="days">dias</string>
+    <string name="title_recom_hist">Teniendo en cuenta el clima estimado el día de la consulta y los valores introducidos las recomendaciones fueron:</string>
+    <string name="subtitle_recom_hist">*Las condiciones climatológicas han podido varias desde que realizó la consulta.</string>
+
+
+    <string name="title_alert_del_BBDD">Resetar Recomendaciones</string>
+    <string name="text_alert_del_BBDD">"¿Está seguro que desea restaurar el listado de recomendaciones? Si lo hace perderá el historial de consultas guardadas."</string>
+
+    <string name="temperature_min_days">La temperatura mínima registrada es de:</string>
+    <string name="temperature_max_days">La temperatura máxima registrada es de:</string>
+
+    <string name="title_alert_del_consult">Borrar Consulta</string>
+    <string name="text_alert_del_consult">"¿Está seguro que desea borrar la consulta?"</string>
+
+    <!-- CONTACT -->
+    <string name="contact_title">Si ha detectado alguna incidencia o comportamiento erróneo en la aplicación no dude en contactar con nosotros.</string>
+    <string name="contact_mail">travelassistant.support@gmail.com</string>
+    <string name="contact_phone">+34916879087</string>
+
+    <!-- BBDD -->
+    <string name="rec_bbdd_00">Recomendación estándar</string>
+    <string name="rec_bbdd_01">Recomendación por viaje de 1 a 3 días de duración</string>
+    <string name="rec_bbdd_02">Recomendación por viaje de 4 a 7 días de duración</string>
+    <string name="rec_bbdd_03">Recomendación por Viaje de ocio</string>
+    <string name="rec_bbdd_04">Recomendación por Viaje de trabajo</string>
+    <string name="rec_bbdd_05">Recomendación por alojamiento en Hotel/Hostal</string>
+    <string name="rec_bbdd_06">Recomendación por alojamiento en casa alquilada</string>
+    <string name="rec_bbdd_07">Recomendación por alojamiento en casa propia</string>
+    <string name="rec_bbdd_08">Recomendación por clima lluvioso o con nieve</string>
+    <string name="rec_bbdd_09">Recomendación por temperatura fría</string>
+    <string name="rec_bbdd_10">Recomendación por temperatura cálida</string>
+    <string name="rec_bbdd_11">Recomendación por transporte propio</string>
+    <string name="rec_bbdd_12">Recomendación por avión, barco, tren o autobús</string>
+
+    <string name="rec_bbdd_00_r01">Cepillo de dientes</string>
+    <string name="rec_bbdd_00_r02">Ropa interior</string>
+    <string name="rec_bbdd_00_r03">Pantalones vaqueros</string>
+    <string name="rec_bbdd_00_r04">Camisetas</string>
+    <string name="rec_bbdd_00_r05">Desodorante</string>
+    <string name="rec_bbdd_00_r06">Medicamentos</string>
+    <string name="rec_bbdd_00_r07">Zapatos/zapatillas</string>
+    <string name="rec_bbdd_00_r08">Documentación (DNI, pasaporte,...)</string>
+    <string name="rec_bbdd_00_r09">Cartera</string>
+    <string name="rec_bbdd_00_r10">Teléfono móvil</string>
+    <string name="rec_bbdd_00_r11">Pañuelos</string>
+
+    <string name="rec_bbdd_02_r01">Pantalones de recambio</string>
+    <string name="rec_bbdd_02_r02">Camisetas de recambio</string>
+    <string name="rec_bbdd_02_r03">Calzado de recambio</string>
+
+    <string name="rec_bbdd_03_r01">Guía de viaje</string>
+    <string name="rec_bbdd_03_r02">Entradas para eventos, museos</string>
+
+    <string name="rec_bbdd_04_r01">Corbata</string>
+    <string name="rec_bbdd_04_r02">Documentos</string>
+
+    <string name="rec_bbdd_05_r01">Reserva de la habitación</string>
+
+    <string name="rec_bbdd_06_r01">Reserva de la casa</string>
+    <string name="rec_bbdd_06_r02">Toallas</string>
+    <string name="rec_bbdd_06_r03">Sábanas</string>
+    <string name="rec_bbdd_06_r04">Secador de pelo</string>
+
+    <string name="rec_bbdd_07_r01">Llaves de la casa</string>
+    <string name="rec_bbdd_07_r02">Comida</string>
+
+    <string name="rec_bbdd_08_r01">Paraguas</string>
+    <string name="rec_bbdd_08_r02">Chubasquero</string>
+
+    <string name="rec_bbdd_09_r01">Abrigo</string>
+
+    <string name="rec_bbdd_10_r01">Bañador</string>
+    <string name="rec_bbdd_10_r02">Toalla de playa/piscina</string>
+
+    <string name="rec_bbdd_11_r01">Llaves del vehículo</string>
+    <string name="rec_bbdd_11_r02">Permiso de conducir</string>
+
+    <string name="rec_bbdd_12_r01">Billete</string>
+    <string name="rec_bbdd_12_r02">Candado para el equipaje</string>
+    <string name="rec_bbdd_12_r03">Etiquetas para las maletas</string>
+
+</resources>

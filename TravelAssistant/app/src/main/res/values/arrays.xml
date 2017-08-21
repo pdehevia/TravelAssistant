@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="default_carrousel_cities_array">
+        <item>Madrid</item>
+        <item>Roma</item>
+        <item>Paris</item>
+        <item>Londres</item>
+        <item>Nueva York</item>
+    </string-array>
+
+    <string-array name="days_array">
+        <item>1 a 3 días</item>
+        <item>4 a 7 días</item>
+    </string-array>
+
+    <string-array name="reason_array">
+        <item>Ocio</item>
+        <item>Trabajo</item>
+    </string-array>
+
+    <string-array name="house_array">
+        <item>Hotel/Hostal</item>
+        <item>Casa en alquiler</item>
+        <item>Casa propia</item>
+    </string-array>
+
+    <string-array name="transport_array">
+        <item>Avión, barco, tren, autobús</item>
+        <item>Vehículo propio</item>
+    </string-array>
+</resources>

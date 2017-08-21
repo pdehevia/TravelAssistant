@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:text="2016-11-08"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewTitleDay"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        style="@style/Style_Title_Month"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="30dp"
+            android:id="@+id/tempLayout">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:text="Temp max:"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textViewTitleMaxDay"
+                    android:layout_marginRight="5dp"
+                    style="@style/Style_Measure" />
+
+                <TextView
+                    android:text="--"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textViewValueMaxDay"
+                    style="@style/Style_Values"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:text="Temp Min:"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textViewTitleMinDay"
+                    android:layout_marginRight="5dp"
+                    style="@style/Style_Measure" />
+
+                <TextView
+                    android:text="--"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textViewValueMinDay"
+                    style="@style/Style_Values"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:text="Amanecer:"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textViewTitleAmanDay"
+                    android:layout_marginRight="5dp"
+                    style="@style/Style_Measure" />
+
+                <TextView
+                    android:text="--"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textViewValueAmanDay"
+                    style="@style/Style_Values"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:text="Atardecer:"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textViewTitleAtarDay"
+                    android:layout_marginRight="5dp"
+                    style="@style/Style_Measure" />
+
+                <TextView
+                    android:text="--"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textViewValueAtarDay"
+                    style="@style/Style_Values"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="4">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:background="@color/activityBackground"
+            android:padding="4dp">
+
+            <TextView
+                android:text="--:--"
+                android:layout_marginBottom="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewTitleHour1"
+                style="@style/Style_Title_Month"/>
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:srcCompat="@drawable/calendar"
+                android:id="@+id/imageViewHour1"
+                android:layout_marginBottom="10dp"/>
+            <TextView
+                android:text="--"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewDegreesHour1"
+                android:layout_weight="1"
+                style="@style/Style_Values"/>
+
+            <TextView
+                android:text="--"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewWindHour1"
+                android:layout_weight="1"
+                style="@style/Style_Values"/>
+
+            <TextView
+                android:text="--"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewHumidity1"
+                android:layout_weight="1"
+                style="@style/Style_Values"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:background="@color/activityBackground_2"
+            android:padding="4dp">
+
+            <TextView
+                android:text="--:--"
+                android:layout_marginBottom="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewTitleHour2"
+                style="@style/Style_Title_Month"/>
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:srcCompat="@drawable/calendar"
+                android:id="@+id/imageViewHour2"
+                android:layout_marginBottom="10dp"/>
+            <TextView
+                android:text="--"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewDegreesHour2"
+                android:layout_weight="1"
+                style="@style/Style_Values"/>
+
+            <TextView
+                android:text="--"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewWindHour2"
+                android:layout_weight="1"
+                style="@style/Style_Values"/>
+
+            <TextView
+                android:text="--"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewHumidity2"
+                android:layout_weight="1"
+                style="@style/Style_Values"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:background="@color/activityBackground"
+            android:padding="4dp">
+
+            <TextView
+                android:text="--:--"
+                android:layout_marginBottom="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewTitleHour3"
+                style="@style/Style_Title_Month"/>
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:srcCompat="@drawable/calendar"
+                android:id="@+id/imageViewHour3"
+                android:layout_marginBottom="10dp"/>
+            <TextView
+                android:text="--"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewDegreesHour3"
+                android:layout_weight="1"
+                style="@style/Style_Values"/>
+
+            <TextView
+                android:text="--"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewWindHour3"
+                android:layout_weight="1"
+                style="@style/Style_Values"/>
+
+            <TextView
+                android:text="--"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewHumidity3"
+                android:layout_weight="1"
+                style="@style/Style_Values"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:background="@color/activityBackground_2"
+            android:padding="4dp">
+
+            <TextView
+                android:text="--:--"
+                android:layout_marginBottom="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewTitleHour4"
+                style="@style/Style_Title_Month"/>
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:srcCompat="@drawable/calendar"
+                android:id="@+id/imageViewHour4"
+                android:layout_marginBottom="10dp"/>
+            <TextView
+                android:text="--"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewDegreesHour4"
+                android:layout_weight="1"
+                style="@style/Style_Values"/>
+
+            <TextView
+                android:text="--"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewWindHour4"
+                android:layout_weight="1"
+                style="@style/Style_Values"/>
+
+            <TextView
+                android:text="--"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewHumidity4"
+                android:layout_weight="1"
+                style="@style/Style_Values"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="4">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:background="@color/activityBackground_2"
+            android:padding="4dp">
+
+            <TextView
+                android:text="--:--"
+                android:layout_marginBottom="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewTitleHour5"
+                style="@style/Style_Title_Month"/>
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:srcCompat="@drawable/calendar"
+                android:id="@+id/imageViewHour5"
+                android:layout_marginBottom="10dp"/>
+            <TextView
+                android:text="--"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewDegreesHora5"
+                android:layout_weight="1"
+                style="@style/Style_Values"/>
+
+            <TextView
+                android:text="--"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewWindHour5"
+                android:layout_weight="1"
+                style="@style/Style_Values"/>
+
+            <TextView
+                android:text="--"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewHumidity5"
+                android:layout_weight="1"
+                style="@style/Style_Values"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:background="@color/activityBackground"
+            android:padding="4dp">
+
+            <TextView
+                android:text="--:--"
+                android:layout_marginBottom="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewTituloHour6"
+                style="@style/Style_Title_Month"/>
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:srcCompat="@drawable/calendar"
+                android:id="@+id/imageViewHour6"
+                android:layout_marginBottom="10dp"/>
+            <TextView
+                android:text="--"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewDegreesHour6"
+                android:layout_weight="1"
+                style="@style/Style_Values"/>
+
+            <TextView
+                android:text="--"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewWindHour6"
+                android:layout_weight="1"
+                style="@style/Style_Values"/>
+
+            <TextView
+                android:text="--"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewHumidity6"
+                android:layout_weight="1"
+                style="@style/Style_Values"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:background="@color/activityBackground_2"
+            android:padding="4dp">
+
+            <TextView
+                android:text="--:--"
+                android:layout_marginBottom="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewTitleHour7"
+                style="@style/Style_Title_Month"/>
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:srcCompat="@drawable/calendar"
+                android:id="@+id/imageViewHour7"
+                android:layout_marginBottom="10dp"/>
+            <TextView
+                android:text="--"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewDegreesHour7"
+                android:layout_weight="1"
+                style="@style/Style_Values"/>
+
+            <TextView
+                android:text="--"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewWindHour7"
+                android:layout_weight="1"
+                style="@style/Style_Values"/>
+
+            <TextView
+                android:text="--"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewHumidity7"
+                android:layout_weight="1"
+                style="@style/Style_Values"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:background="@color/activityBackground"
+            android:padding="4dp">
+
+            <TextView
+                android:text="--:--"
+                android:layout_marginBottom="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewTitleHour8"
+                style="@style/Style_Title_Month"/>
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:srcCompat="@drawable/calendar"
+                android:id="@+id/imageViewHour8"
+                android:layout_marginBottom="10dp"/>
+            <TextView
+                android:text="--"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewDegreesHour8"
+                android:layout_weight="1"
+                style="@style/Style_Values"/>
+
+            <TextView
+                android:text="--"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewWindHour8"
+                android:layout_weight="1"
+                style="@style/Style_Values"/>
+
+            <TextView
+                android:text="--"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewHumidity8"
+                android:layout_weight="1"
+                style="@style/Style_Values"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

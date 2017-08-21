@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_menu_intro"
+        android:enabled="true"
+        android:icon="@drawable/menu_home"
+        android:title="@string/menu_item1"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_menu_new_query"
+        android:enabled="true"
+        android:icon="@drawable/menu_search"
+        android:title="@string/menu_item2"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_menu_historical"
+        android:enabled="true"
+        android:icon="@drawable/menu_historical"
+        android:title="@string/menu_item3"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_menu_edit_recommendations"
+        android:enabled="true"
+        android:icon="@drawable/menu_edit"
+        android:title="@string/menu_item4"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_menu_restore_recommendations"
+        android:enabled="true"
+        android:icon="@drawable/menu_recommendation"
+        android:title="@string/menu_item5"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_menu_help"
+        android:enabled="true"
+        android:icon="@drawable/menu_help"
+        android:title="@string/menu_item6"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_menu_contact"
+        android:enabled="true"
+        android:icon="@drawable/menu_contact"
+        android:title="@string/menu_item7"
+        app:showAsAction="ifRoom" />
+
+</menu>

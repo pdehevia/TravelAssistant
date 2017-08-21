@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="proyect.travelassistant.activitys.RestoreActivity">
+
+    <LinearLayout
+        android:id="@+id/restoreContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="20dp"
+        android:visibility="invisible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ok"
+                android:layout_gravity="center"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="10dp">
+
+                <TextView
+                    android:id="@+id/textViewRestore1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/restore_text1"
+                    style="@style/Style_restore_title" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textViewRestore2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/restore_text2"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            style="@style/Style_restore_question" />
+
+        <Button
+            android:id="@+id/buttonRestoreHome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:padding="10dp"
+            android:background="@drawable/custom_btn"
+            android:text="@string/button_go_home"
+            android:textColor="@android:color/white"
+            android:textStyle="normal|bold"
+            android:drawableLeft="@drawable/btn_home"/>
+
+        <Button
+            android:id="@+id/buttonRestoreEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:padding="10dp"
+            android:background="@drawable/custom_btn"
+            android:text="@string/button_go_edit"
+            android:textColor="@android:color/white"
+            android:textStyle="normal|bold"
+            android:drawableLeft="@drawable/btn_edit"/>
+
+        <Button
+            android:id="@+id/buttonRestoreSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:padding="10dp"
+            android:background="@drawable/custom_btn"
+            android:text="@string/button_go_search"
+            android:textColor="@android:color/white"
+            android:textStyle="normal|bold"
+            android:drawableLeft="@drawable/btn_search"/>
+    </LinearLayout>
+</LinearLayout>
