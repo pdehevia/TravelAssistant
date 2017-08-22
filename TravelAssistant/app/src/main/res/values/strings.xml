@@ -121,8 +121,9 @@
     <string name="critery_5">"Hotel/Hostal"</string>
     <string name="critery_6">"Casa en alquiler"</string>
     <string name="critery_7">"Casa propia"</string>
-    <string name="critery_11">"Avión, barco, tren, autobús"</string>
-    <string name="critery_12">"Vehículo propio"</string>
+    <string name="critery_11">"Vehículo propio"</string>
+    <string name="critery_12">"Avión, barco, tren, autobús"</string>
+
 
     <string name="title_weather">"Recomendaciones según la temperatura esperada:"</string>
     <string name="title_recom_weather_rain">"Se esperan precipitaciones."</string>

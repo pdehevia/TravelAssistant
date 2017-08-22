@@ -12,6 +12,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -161,7 +162,7 @@ public class NewQueryActivity extends BaseActivity implements OnMapReadyCallback
                                 .setPositiveButton(getString(R.string.accept), new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {}
                                 })
-                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .setIcon(R.drawable.ic_warning)
                                 .show();
                     }
                 }

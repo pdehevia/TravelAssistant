@@ -7,8 +7,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.location.Address;
-import android.location.Geocoder;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -30,27 +28,18 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 
-import java.io.IOException;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import proyect.travelassistant.R;
 import proyect.travelassistant.activitys.HistoricalActivity;
-import proyect.travelassistant.activitys.IntroActivity;
-import proyect.travelassistant.activitys.NewQueryActivity;
 import proyect.travelassistant.activitys.ResultActivity;
+import proyect.travelassistant.beans.HistoricalFileBean;
 import proyect.travelassistant.beans.worldweather.Response;
 import proyect.travelassistant.sqlite.Consult;
 import proyect.travelassistant.sqlite.CriteryDB;
-import proyect.travelassistant.sqlite.Recom;
 import proyect.travelassistant.sqlite.RecomsForConsultDB;
 import proyect.travelassistant.sqlite.RecomsDB;
 import proyect.travelassistant.utils.RestClient;
@@ -68,6 +57,10 @@ public class FragmentHistoricalResult extends Fragment {
     private String critery2;
     private String critery3;
     private String critery4;
+
+    private final int NUM_CRITEROS = 12;
+
+    private List<HistoricalFileBean>files = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -93,7 +86,6 @@ public class FragmentHistoricalResult extends Fragment {
         tvTitle.setLayoutParams(par1);
         ll.addView(tvTitle);
 
-        //////////////////////////////////
         Button btnUpdate = new Button(getContext());
         btnUpdate.setText(getString(R.string.update_button));
         LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -108,7 +100,6 @@ public class FragmentHistoricalResult extends Fragment {
             }
         });
         ll.addView(btnUpdate);
-        //////////////////////////////////
 
         TextView tvTitleRec = new TextView(getContext());
         tvTitleRec.setText(getResources().getString(R.string.title_recom_hist));
@@ -181,16 +172,28 @@ public class FragmentHistoricalResult extends Fragment {
         final Long idConsulta = consult.getId();
         Cursor cursor = recomsForConsultDB.getRecomendacionesParaConsultaId(idConsulta);
 
-        CriteryDB criteryDB = new CriteryDB(getContext());
+
         if((cursor != null) && (cursor.getCount() > 0)){
             int criterioRef = 99;
-            criteryDB.open();
+            files.clear();
             for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-                final Long idRow = cursor.getLong(0);
-                Recom r = recomsDB.getRecomendacionForId(cursor.getLong(1));
+                HistoricalFileBean hfb = new HistoricalFileBean();
+                hfb.setIdRow(cursor.getLong(0));
+                hfb.setRecom(recomsDB.getRecomendacionForId(cursor.getLong(1)));
                 int done = cursor.getInt(3);
+                hfb.setDone(done==1);
+                files.add(hfb);
+            }
+            cursor.close();
 
-                int nuevoCrit = (int) r.getCritero();
+            orderFilesByCritery();
+
+            CriteryDB criteryDB = new CriteryDB(getContext());
+            criteryDB.open();
+            for (int i=0;i<files.size();i++) {
+                final HistoricalFileBean hfb = files.get(i);
+
+                int nuevoCrit = (int) hfb.getRecom().getCritero();
                 if(nuevoCrit!=criterioRef){
                     criterioRef = nuevoCrit;
 
@@ -209,7 +212,7 @@ public class FragmentHistoricalResult extends Fragment {
                     imgTitle.setLayoutParams(paramsImg);
 
                     int color = 0;
-                    switch ((int) r.getCritero()){
+                    switch ((int) hfb.getRecom().getCritero()){
                         case 0:
                             imgTitle.setImageResource(R.drawable.cat_00);
                             color = ContextCompat.getColor(getContext(), R.color.colorCat_00);
@@ -273,7 +276,7 @@ public class FragmentHistoricalResult extends Fragment {
                     linearTitulo.addView(imgTitle);
 
                     TextView tvTitleCrit = new TextView(getContext());
-                    tvTitleCrit.setText(criteryDB.getCriterioDescripcionForId(r.getCritero()));
+                    tvTitleCrit.setText(criteryDB.getCriterioDescripcionForId(hfb.getRecom().getCritero()));
                     TextViewCompat.setTextAppearance(tvTitleCrit, R.style.Style_Recoms_Title);
                     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                     params.setMargins(10,0,0,0);
@@ -290,17 +293,17 @@ public class FragmentHistoricalResult extends Fragment {
                 fila.setLayoutParams(paramsFila);
 
                 final CheckBox checkBox = new CheckBox(getContext());
-                checkBox.setTag(r.getId());
-                checkBox.setChecked(done ==1);
+                checkBox.setTag(hfb.getRecom().getId());
+                checkBox.setChecked(hfb.isDone());
                 checkBox.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         RecomsForConsultDB recomsForConsultDB = new RecomsForConsultDB(getContext());
                         recomsForConsultDB.open();
                         Long idRecom = (Long) checkBox.getTag();
-                        if(idRecom!=null && idRow!=null){
+                        if(idRecom!=null && hfb.getIdRow()!=null){
                             boolean check = checkBox.isChecked();
-                            recomsForConsultDB.updateRecomendacionParaConsulta(idRow, idRecom,idConsulta,check);
+                            recomsForConsultDB.updateRecomendacionParaConsulta(hfb.getIdRow(), idRecom,idConsulta,check);
                         }
                         recomsForConsultDB.close();
                     }
@@ -309,7 +312,7 @@ public class FragmentHistoricalResult extends Fragment {
                 fila.addView(checkBox);
 
                 TextView tvRecomen = new TextView(getContext());
-                tvRecomen.setText(r.getDescripcion());
+                tvRecomen.setText(hfb.getRecom().getDescripcion());
                 TextViewCompat.setTextAppearance(tvRecomen, R.style.Style_Recoms_Edit);
                 LinearLayout.LayoutParams paramsAux = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 paramsAux.setMargins(10,0,0,5);
@@ -318,7 +321,6 @@ public class FragmentHistoricalResult extends Fragment {
 
                 ll.addView(fila);
             }
-            cursor.close();
             criteryDB.close();
         }
         recomsDB.close();
@@ -403,6 +405,8 @@ public class FragmentHistoricalResult extends Fragment {
                         i.putExtra("Alojamiento",critery3);
                         i.putExtra("Transporte",critery4);
                         i.putExtra("Destino",consult.getDestino());
+                        i.putExtra("ConsultaExiste",true);
+                        i.putExtra("ConsultaID",consult.getId());
                         activity.startActivity(i);
                         activity.finish();
                     }else{
@@ -457,6 +461,20 @@ public class FragmentHistoricalResult extends Fragment {
                     .show();
         }
         return isConnected;
+    }
+
+    private void orderFilesByCritery(){
+        List<HistoricalFileBean> orderFiles = new ArrayList<>();
+        for(long i=0;i<=NUM_CRITEROS;i++){
+            for(int j=0;j<files.size();j++){
+                if(files.get(j).getRecom().getCritero()==i){
+                    orderFiles.add(files.get(j));
+                }
+            }
+        }
+        if(orderFiles.size()>0){
+            files = orderFiles;
+        }
     }
 
 }

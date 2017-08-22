@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +29,8 @@ import proyect.travelassistant.beans.worldweather.HourlyBean;
 import proyect.travelassistant.beans.worldweather.WeatherBean;
 import proyect.travelassistant.sqlite.Consult;
 import proyect.travelassistant.sqlite.ConsultsDB;
+import proyect.travelassistant.sqlite.CriteryDB;
+import proyect.travelassistant.sqlite.Recom;
 import proyect.travelassistant.sqlite.RecomsForConsult;
 import proyect.travelassistant.sqlite.RecomsForConsultDB;
 import proyect.travelassistant.sqlite.RecomsDB;
@@ -39,6 +42,11 @@ public class FragmentTabResultsRecom extends Fragment {
     private boolean guardado;
     private Map<Long, Long> indexRow = new HashMap<>();
     private Map<Long,Boolean> checkBoxIndex = new HashMap<>();
+    private ResultActivity ra;
+    private List<Long> recomsExists = new ArrayList<>();
+    private Map<Long,Long> recomsRowsExists = new HashMap<>();
+    private Map<Long,Boolean> recomsCheckExists = new HashMap<>();
+    private List<Long>  drawRecomsExists = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,8 +60,12 @@ public class FragmentTabResultsRecom extends Fragment {
         View view = inflater.inflate(R.layout.fragment_tab_resultados_recomendaciones, container, false);
 
         ll = (LinearLayout) view.findViewById(R.id.linearLayoutRecoms);
-        ResultActivity ra = (ResultActivity) getActivity();
+        ra = (ResultActivity) getActivity();
 
+        recomsExists.clear();
+        recomsRowsExists.clear();
+        recomsCheckExists.clear();
+        drawRecomsExists.clear();
 
         if(!guardado){
             indexRow.clear();
@@ -62,18 +74,21 @@ public class FragmentTabResultsRecom extends Fragment {
             ConsultsDB consultsDB = new ConsultsDB(getContext());
             consultsDB.open();
 
-            List<Consult> consults = consultsDB.getConsultas();
-            if(consults.size()>9){
-                consultsDB.deleteConsulta(consults.get(0).getId());
-                RecomsForConsultDB recomsForConsultDB = new RecomsForConsultDB(getContext());
-                recomsForConsultDB.open();
-                recomsForConsultDB.deleteRecomendacionParaConsultaConIdConsulta(consults.get(0).getId());
-                recomsForConsultDB.close();
+            if(ra.consultaExistente){
+                idConsulta = ra.idConsulta;
+            }else{
+                List<Consult> consults = consultsDB.getConsultas();
+                if(consults.size()>9){
+                    consultsDB.deleteConsulta(consults.get(0).getId());
+                    RecomsForConsultDB recomsForConsultDB = new RecomsForConsultDB(getContext());
+                    recomsForConsultDB.open();
+                    recomsForConsultDB.deleteRecomendacionParaConsultaConIdConsulta(consults.get(0).getId());
+                    recomsForConsultDB.close();
+                }
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+                String currentDateandTime = sdf.format(new Date());
+                idConsulta = consultsDB.createConsulta(currentDateandTime,ra.destino,0,"","","",ra.lat,ra.lon);
             }
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-            String currentDateandTime = sdf.format(new Date());
-            idConsulta = consultsDB.createConsulta(currentDateandTime,ra.destino,0,"","","",ra.lat,ra.lon);
-
             consultsDB.close();
         }
 
@@ -257,10 +272,51 @@ public class FragmentTabResultsRecom extends Fragment {
 
         guardado = true;
 
+        if(ra.consultaExistente){
+            for(int i=0;i<recomsExists.size();i++){
+                Long idRecom = recomsExists.get(i);
+                if(!drawRecomsExists.contains(idRecom)){
+                    RecomsForConsultDB recomsForConsultDB = new RecomsForConsultDB(getContext());
+                    recomsForConsultDB.open();
+                    recomsForConsultDB.deleteRecomendacionParaConsultaConIdRecomendacion(idRecom);
+                    recomsForConsultDB.close();
+                }
+            }
+        }
+
         return view;
     }
 
     private void pintarRecomendacionesParaCriterio(String titulo, int criterio, boolean pintarLineaSep){
+
+        if(ra.consultaExistente){
+            RecomsForConsultDB recomsForConsultDB = new RecomsForConsultDB(getContext());
+            RecomsDB recomsDB = new RecomsDB(getContext());
+            recomsForConsultDB.open();
+            recomsDB.open();
+            Cursor cursor = recomsForConsultDB.getRecomendacionesParaConsultaId(idConsulta);
+
+            CriteryDB criteryDB = new CriteryDB(getContext());
+            if((cursor != null) && (cursor.getCount() > 0)){
+                int criterioRef = 99;
+                criteryDB.open();
+                for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                    final Long idRow = cursor.getLong(0);
+                    Recom r = recomsDB.getRecomendacionForId(cursor.getLong(1));
+                    int done = cursor.getInt(3);
+                    if(!recomsExists.contains(r.getId())){
+                        recomsExists.add(r.getId());
+                    }
+                    recomsRowsExists.put(r.getId(),idRow);
+                    recomsCheckExists.put(r.getId(),done==1);
+                }
+                cursor.close();
+                criteryDB.close();
+            }
+            recomsDB.close();
+            recomsForConsultDB.close();
+        }
+
         RecomsDB recomsDB = new RecomsDB(getContext());
         recomsDB.open();
         Cursor cursorRecomen = recomsDB.getRecomendacionForCriterio(criterio);
@@ -361,16 +417,33 @@ public class FragmentTabResultsRecom extends Fragment {
 
                     //Guardar en consulta
                     if(!guardado){
-                       Long idRow = recomsForConsultDB.createRecomendacionParaConsulta(idRecom,idConsulta,false);
+                        Long idRow;
+                        if(ra.consultaExistente && recomsExists.contains(idRecom)){
+                            idRow = recomsRowsExists.get(idRecom);
+                        }else{
+                            idRow = recomsForConsultDB.createRecomendacionParaConsulta(idRecom,idConsulta,false);
+                        }
                         indexRow.put(idRecom,idRow);
                     }
 
                     final CheckBox checkBox = new CheckBox(getContext());
                     checkBox.setTag(idRecom);
-                    if(!guardado){
-                        checkBoxIndex.put(idRecom,checkBox.isChecked());
+
+                    if(ra.consultaExistente){
+                        if(recomsExists.contains(idRecom)){
+                            boolean checked = recomsCheckExists.get(idRecom);
+                            checkBoxIndex.put(idRecom,checked);
+                            checkBox.setChecked(checked);
+                        }else{
+                            checkBoxIndex.put(idRecom,false);
+                            checkBox.setChecked(false);
+                        }
                     }else{
-                        checkBox.setChecked(checkBoxIndex.get(idRecom));
+                        if(!guardado){
+                            checkBoxIndex.put(idRecom,checkBox.isChecked());
+                        }else{
+                            checkBox.setChecked(checkBoxIndex.get(idRecom));
+                        }
                     }
 
                     checkBox.setOnClickListener(new View.OnClickListener() {
@@ -401,9 +474,14 @@ public class FragmentTabResultsRecom extends Fragment {
 
                     fila.addView(tvRecomen);
 
+                    if(ra.consultaExistente){
+                        drawRecomsExists.add(idRecom);
+                    }
+
                     ll.addView(fila);
                 }
             }
+
             List<RecomsForConsult> recs = recomsForConsultDB.getRecomendacionParaConsulta();
             recomsForConsultDB.close();
 

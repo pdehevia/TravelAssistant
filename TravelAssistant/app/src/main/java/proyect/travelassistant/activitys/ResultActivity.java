@@ -28,6 +28,8 @@ public class ResultActivity extends BaseActivity {
     public String destino;
     public double lat;
     public double lon;
+    public boolean consultaExistente;
+    public long idConsulta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,10 @@ public class ResultActivity extends BaseActivity {
         destino = intent.getStringExtra("Destino");
         lat = intent.getDoubleExtra("Lat",0);
         lon = intent.getDoubleExtra("Lon",0);
+        consultaExistente = intent.getBooleanExtra("ConsultaExiste",false);
+        if(consultaExistente){
+            idConsulta = intent.getLongExtra("ConsultaID",-99);
+        }
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);

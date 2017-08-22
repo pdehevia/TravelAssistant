@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.res.ResourcesCompat;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -130,7 +131,7 @@ public class EditRecomActivity extends BaseActivity {
                             .setTitle(getString(R.string.title_alert_desc))
                             .setMessage(getString(R.string.text_alert_desc))
                             .setPositiveButton(getString(R.string.accept), null)
-                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setIcon(R.drawable.ic_warning)
                             .show();
                 }
 
@@ -162,7 +163,7 @@ public class EditRecomActivity extends BaseActivity {
                                 finish();
                             }
                         })
-                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setIcon(R.drawable.ic_warning)
                         .setNegativeButton(getString(R.string.cancel),null)
                         .show();
             }

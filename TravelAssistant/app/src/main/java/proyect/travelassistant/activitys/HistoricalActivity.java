@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v4.content.res.ResourcesCompat;
 import android.view.MenuItem;
 
 import java.util.List;
@@ -112,7 +113,7 @@ public class HistoricalActivity extends BaseActivity {
                                 mostrarListadoFragment();
                             }
                         })
-                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setIcon(R.drawable.ic_warning)
                         .setNegativeButton(getString(R.string.cancel),null)
                         .show();
                 break;
