@@ -45,6 +45,7 @@ public class AddRecomActivity extends BaseActivity {
         editText = (EditText) findViewById(R.id.editTextAddRecomTxt) ;
         spinner = (Spinner) findViewById(R.id.spinner_add_rec);
         switchVisible = (Switch) findViewById(R.id.switchAddRecom);
+        switchVisible.setChecked(true);
 
         CriteryDB criteryDB = new CriteryDB(this);
         criteryDB.open();
