@@ -163,12 +163,15 @@
     <string name="text_alert_create">"¿Está seguro que deseas añadir esta recomendación?"</string>
 
     <!-- HISTORICAL -->
+
+    <string name="title_alert_update_recom">Actualizar Previsión</string>
+    <string name="text_alert_update_recom">"Si finaliza el proceso, el listado de recomendaciones podria variar si ha realizado modificaciones desde el momento en que se realizó la consulta. ¿Está seguro?"</string>
+
     <string name="text_blank_fragment">El historial de búsquedas está vacío</string>
-    <string name="update_button">Actualizar previsión</string>
     <string name="duration_travel_hist">El viaje durará aproximádamente</string>
     <string name="days">dias</string>
     <string name="title_recom_hist">Teniendo en cuenta el clima estimado el día de la consulta y los valores introducidos las recomendaciones fueron:</string>
-    <string name="subtitle_recom_hist">*Las condiciones climatológicas han podido varias desde que realizó la consulta.</string>
+    <string name="subtitle_recom_hist">*Las condiciones climatológicas han podido variar desde que realizó la consulta.</string>
 
 
     <string name="title_alert_del_BBDD">Resetar Recomendaciones</string>

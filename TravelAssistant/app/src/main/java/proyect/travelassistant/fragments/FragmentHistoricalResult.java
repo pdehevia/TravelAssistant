@@ -78,28 +78,55 @@ public class FragmentHistoricalResult extends Fragment {
         HistoricalActivity ha = (HistoricalActivity) getActivity();
         consult = ha.consults.get(ha.consultado);
 
+        LinearLayout fileTitle = new LinearLayout(getContext());
+        fileTitle.setOrientation(LinearLayout.HORIZONTAL);
+        LinearLayout.LayoutParams paramsF= new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+        paramsF.setMargins(20,0,0,20);
+        fileTitle.setGravity(Gravity.CENTER_VERTICAL);
+        fileTitle.setLayoutParams(paramsF);
+        fileTitle.setWeightSum(10);
+
         TextView tvTitle = new TextView(getContext());
         tvTitle.setText(consult.getDestino() + " ("+ consult.getFecha()+")");
         TextViewCompat.setTextAppearance(tvTitle, R.style.Style_Title_Historic);
-        LinearLayout.LayoutParams par1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        par1.setMargins(10,10,10,10);
+        LinearLayout.LayoutParams par1 = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT,7);
+        par1.setMargins(10,10,30,10);
         tvTitle.setLayoutParams(par1);
-        ll.addView(tvTitle);
+        fileTitle.addView(tvTitle);
+
+        LinearLayout llbtn = new LinearLayout(getContext());
+        llbtn.setOrientation(LinearLayout.HORIZONTAL);
+        LinearLayout.LayoutParams pllbtn= new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.WRAP_CONTENT,3);
+        llbtn.setGravity(Gravity.CENTER);
+        llbtn.setLayoutParams(pllbtn);
 
         Button btnUpdate = new Button(getContext());
-        btnUpdate.setText(getString(R.string.update_button));
-        LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams(80, 80);
         btnParams.setMargins(10,10,10,10);
         btnUpdate.setLayoutParams(btnParams);
+        btnUpdate.setBackgroundResource(R.drawable.custom_btn_updatehist);
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(comprobarRed()){
-                    new updateQueryTask().execute();
-                }
+
+                new AlertDialog.Builder(activity)
+                        .setTitle(getString(R.string.title_alert_update_recom))
+                        .setMessage(getString(R.string.text_alert_update_recom))
+                        .setPositiveButton(getString(R.string.accept), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                if(comprobarRed()){
+                                    new updateQueryTask().execute();
+                                }
+                            }
+                        })
+                        .setIcon(R.drawable.ic_warning)
+                        .setNegativeButton(getString(R.string.cancel),null)
+                        .show();
             }
         });
-        ll.addView(btnUpdate);
+        llbtn.addView(btnUpdate);
+        fileTitle.addView(llbtn);
+        ll.addView(fileTitle);
 
         TextView tvTitleRec = new TextView(getContext());
         tvTitleRec.setText(getResources().getString(R.string.title_recom_hist));
