@@ -30,7 +30,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -41,7 +40,7 @@ import proyect.travelassistant.activitys.HistoricalActivity;
 import proyect.travelassistant.activitys.NewQueryActivity;
 import proyect.travelassistant.adapters.CarouselUpIntroAdapter;
 import proyect.travelassistant.adapters.CarrouselDownIntroAdapter;
-import proyect.travelassistant.beans.ItemDown;
+import proyect.travelassistant.beans.ItemAdvice;
 import proyect.travelassistant.beans.AuxiliarData;
 import proyect.travelassistant.beans.openweather.OpenWeatherResponseBean;
 import proyect.travelassistant.sqlite.Consult;
@@ -64,13 +63,14 @@ public class FragmentIntro  extends Fragment {
     private PagerAdapter pagerDownAdapter;
     private String city;
     private List<OpenWeatherResponseBean> elementsUpCarrousel;
-    private List<ItemDown> elementsDownCarrousel = new ArrayList<>();
+    private List<ItemAdvice> elementsDownCarrousel = new ArrayList<>();
     private List<String> queueCities = new ArrayList<>();
     private ProgressDialog progressDialog;
 
     private int currentPage = 0;
     private Timer timer;
-    private DatabaseReference mDatabase;
+    private DatabaseReference mDatabaseAdvices;
+    private DatabaseReference mDatabasCities;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -107,7 +107,7 @@ public class FragmentIntro  extends Fragment {
         btn_reload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawUpPage();
+                drawAdvices();
             }
         });
 
@@ -142,40 +142,39 @@ public class FragmentIntro  extends Fragment {
 
         elementsUpCarrousel = new ArrayList<>();
 
-        drawUpPage();
-
-        return mView;
-    }
-
-    private void drawUpPage() {
         if(isConnectionAvailable()){
-            DrawPage();
             pager_up.setVisibility(View.VISIBLE);
             pager_up_no_internet.setVisibility(View.GONE);
 
-            mDatabase = FirebaseDatabase.getInstance().getReference("list");
-
-            mDatabase.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    elementsDownCarrousel.clear();
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        elementsDownCarrousel.add(snapshot.getValue(ItemDown.class));
-                    }
-                    pagerDownAdapter.notifyDataSetChanged();
-                }
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
+            DrawCities();
+            drawAdvices();
         }else{
             pager_up.setVisibility(View.GONE);
             pager_up_no_internet.setVisibility(View.VISIBLE);
         }
+        return mView;
     }
 
-    private void DrawPage() {
+    private void drawAdvices() {
+        mDatabaseAdvices = FirebaseDatabase.getInstance().getReference("advices");
+
+        mDatabaseAdvices.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                elementsDownCarrousel.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    elementsDownCarrousel.add(snapshot.getValue(ItemAdvice.class));
+                }
+                pagerDownAdapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void DrawCities() {
         progressDialog = getCustomProgressDialog(getActivity(), getString(R.string.loading));
         progressDialog.show();
 
@@ -183,6 +182,7 @@ public class FragmentIntro  extends Fragment {
 
         if(queueCities.size()>0 && AuxiliarData.getSingletonInstance().getItemsCarrousel().size()>0 &&
                 AuxiliarData.getSingletonInstance().getItemsCarrousel().size() == queueCities.size()){
+
             elementsUpCarrousel = AuxiliarData.getSingletonInstance().getItemsCarrousel();
             drawViewPager();
             if (progressDialog != null) {
@@ -190,12 +190,25 @@ public class FragmentIntro  extends Fragment {
             }
         }else{
             if(queueCities.size()==0){
-                String[] cities = getResources().getStringArray(R.array.default_carrousel_cities_array);
-                queueCities = Arrays.asList(cities);
-            }
-            callNextRequest(0);
-        }
+                mDatabasCities = FirebaseDatabase.getInstance().getReference("cities");
 
+                mDatabasCities.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            queueCities.add((String)snapshot.getValue());
+                        }
+                        callNextRequest(0);
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }else{
+                callNextRequest(0);
+            }
+        }
     }
 
     @Override

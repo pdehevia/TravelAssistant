@@ -4,14 +4,14 @@ package proyect.travelassistant.beans;
  * Created by Pablo on 03/08/2017.
  */
 
-public class ItemDown {
+public class ItemAdvice {
     private String image;
     private String text;
 
-    public ItemDown() {
+    public ItemAdvice() {
     }
 
-    public ItemDown(String imageUrl, String text) {
+    public ItemAdvice(String imageUrl, String text) {
         this.image = imageUrl;
         this.text = text;
     }
