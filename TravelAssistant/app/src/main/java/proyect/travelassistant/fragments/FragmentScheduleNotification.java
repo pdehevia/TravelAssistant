@@ -1,5 +1,8 @@
 package proyect.travelassistant.fragments;
 
+import android.annotation.TargetApi;
+import android.app.TimePickerDialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -13,6 +16,11 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.TimePicker;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import proyect.travelassistant.R;
 import proyect.travelassistant.beans.AuxiliarData;
@@ -30,6 +38,9 @@ public class FragmentScheduleNotification extends DialogFragment {
     private ScheduledInfoBean scheduledInfo;
     private Button buttonCancelEditSchedule;
     private Button buttonSaveEditSchedule;
+
+    private int hourSchedule;
+    private int minSchedule;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,11 +69,13 @@ public class FragmentScheduleNotification extends DialogFragment {
         //Default config
         scheduleSwitch.setChecked(false);
         scheduleTvHour.setText(getString(R.string.scheduled_hour_default));
+        hourSchedule =12;
+        minSchedule =12;
         schedule_ll_select_recom.setVisibility(View.INVISIBLE);
         scheduleEt.setEnabled(false);
         scheduleEt.setText(getString(R.string.scheduled_type_def_desc) +" "+ scheduledInfo.getNameCity());
 
-        //Click change hour
+        //Click change hourSchedule
         schedule_ll_select_hour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,7 +97,9 @@ public class FragmentScheduleNotification extends DialogFragment {
                         schedule_ll_select_recom.setVisibility(View.VISIBLE);
                         scheduleEt.setEnabled(false);
                         schedule_spinner_recom.setSelection(0);
-                        scheduleEt.setText(scheduledInfo.getRecoms().get(0));
+
+                        scheduleEt.setText(getString(R.string.scheduled_type_recom_desc_1) + " " + scheduledInfo.getRecoms().get(0)
+                        + " " + getString(R.string.scheduled_type_recom_desc_2)+ " " + scheduledInfo.getNameCity());
                         break;
                     case 2: //Personalizada
                         schedule_ll_select_recom.setVisibility(View.INVISIBLE);
@@ -104,7 +119,8 @@ public class FragmentScheduleNotification extends DialogFragment {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 if(schedule_spinner_type.getSelectedItemPosition()==1){
-                    scheduleEt.setText(scheduledInfo.getRecoms().get(position));
+                    scheduleEt.setText(getString(R.string.scheduled_type_recom_desc_1) + " " + scheduledInfo.getRecoms().get(position)
+                            + " " + getString(R.string.scheduled_type_recom_desc_2)+ " " + scheduledInfo.getNameCity());
                 }
             }
 
@@ -112,6 +128,16 @@ public class FragmentScheduleNotification extends DialogFragment {
             public void onNothingSelected(AdapterView<?> parentView) {
             }
         });
+
+        //Click hourSchedule
+
+        schedule_ll_select_hour.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog(hourSchedule, minSchedule);
+            }
+        });
+
 
         //Click Cancel
         buttonCancelEditSchedule.setOnClickListener(new View.OnClickListener() {
@@ -131,4 +157,51 @@ public class FragmentScheduleNotification extends DialogFragment {
         return mView;
     }
 
+    private void showTimePickerDialog(int h, int m) {
+
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View view = inflater.inflate(R.layout.timepicker, null);
+
+        TimePickerDialog builder = new TimePickerDialog(getContext(), R.style.DialogTheme,
+                new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int hour, int min) {
+                        hourSchedule = hour;
+                        minSchedule = min;
+                        scheduleTvHour.setText(getFormatedTime(hour, min));
+                    }
+                }, h, m, false);
+
+        builder.setCustomTitle(view);
+        builder.show();
+
+    }
+    public String getFormatedTime(int h, int m) {
+        final String OLD_FORMAT = "HH:mm";
+        final String NEW_FORMAT = "hh:mm a";
+
+        String oldDateString = h + ":" + m;
+        String newDateString = "";
+
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT, getCurrentLocale());
+            Date d = sdf.parse(oldDateString);
+            sdf.applyPattern(NEW_FORMAT);
+            newDateString = sdf.format(d);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return newDateString;
+    }
+
+    @TargetApi(Build.VERSION_CODES.N)
+    public Locale getCurrentLocale() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return getResources().getConfiguration().getLocales().get(0);
+        } else {
+            //noinspection deprecation
+            return getResources().getConfiguration().locale;
+        }
+    }
 }
