@@ -20,7 +20,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_TABLE_RECOMS = "recomendaciones";
     private static final String DATABASE_TABLE_QUERYS = "consulta";
     private static final String DATABASE_TABLE_RECOMES_FOR_QUERYS = "recomendaciones_para_consultas";
-
+    private static final String DATABASE_TABLE_NOTIFS_FOR_QUERYS = "notificaciones_para_consultas";
 
     private static final int DATABASE_VERSION = 1;
 
@@ -31,6 +31,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_VISIBLE = "visible";
     private static final String KEY_ID_RECOM = "id_recomendacion";
     private static final String KEY_ID_CONSULT = "id_consulta";
+    private static final String KEY_ID_NOTIF= "notificacion";
     private static final String KEY_DATE = "fecha";
     private static final String KEY_DESTINY = "destino";
     private static final String KEY_DAYS = "dias";
@@ -78,6 +79,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + KEY_ID_CONSULT + " integer, "
             + KEY_DONE + " integer, "
             + "FOREIGN KEY ("+ KEY_ID_RECOM +") REFERENCES " + DATABASE_TABLE_RECOMS + "("+KEY_ID+") , "
+            + "FOREIGN KEY ("+ KEY_ID_CONSULT +") REFERENCES " + DATABASE_TABLE_QUERYS + "("+KEY_ID+")"
+            + ");";
+
+    private static final String CREATE_DATABASE_NOTIFS_FOR_QUERYS = "create table "
+            + DATABASE_TABLE_NOTIFS_FOR_QUERYS + " ("
+            + KEY_ID + " integer primary key autoincrement, "
+            + KEY_ID_CONSULT + " integer, "
+            + KEY_ID_NOTIF + " integer, "
+            + KEY_DATE + " text not null, "
             + "FOREIGN KEY ("+ KEY_ID_CONSULT +") REFERENCES " + DATABASE_TABLE_QUERYS + "("+KEY_ID+")"
             + ");";
 
@@ -171,6 +181,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL(CREATE_DATABASE_QUERYS);
         db.execSQL(CREATE_DATABASE_RECOMS_FOR_QUERYS);
+        db.execSQL(CREATE_DATABASE_NOTIFS_FOR_QUERYS);
     }
 
     @Override
@@ -179,6 +190,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + CREATE_DATABASE_RECOMS);
         db.execSQL("DROP TABLE IF EXISTS " + CREATE_DATABASE_QUERYS);
         db.execSQL("DROP TABLE IF EXISTS " + CREATE_DATABASE_RECOMS_FOR_QUERYS);
+        db.execSQL("DROP TABLE IF EXISTS " + CREATE_DATABASE_NOTIFS_FOR_QUERYS);
         onCreate(db);
     }
 
@@ -196,6 +208,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static String getDatabaseTableRecomesForQuerys() {
         return DATABASE_TABLE_RECOMES_FOR_QUERYS;
+    }
+
+    public static String getDatabaseTableNotifsForQuerys() {
+        return DATABASE_TABLE_NOTIFS_FOR_QUERYS;
     }
 
     public static int getDatabaseVersion() {
@@ -224,6 +240,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static String getKeyIdConsult() {
         return KEY_ID_CONSULT;
+    }
+
+    public static String getKeyIdNotif() {
+        return KEY_ID_NOTIF;
     }
 
     public static String getKeyDate() {

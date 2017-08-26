@@ -152,6 +152,7 @@ public class FragmentScheduleNotification extends DialogFragment {
             @Override
             public void onClick(View v) {
                 dismiss();
+                //TODO: CREAR NOTIFICACION
             }
         });
         return mView;
