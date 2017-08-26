@@ -33,6 +33,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_ID_CONSULT = "id_consulta";
     private static final String KEY_ID_NOTIF= "notificacion";
     private static final String KEY_DATE = "fecha";
+    private static final String KEY_TEXT = "texto";
+    private static final String KEY_TYPE = "type";
     private static final String KEY_DESTINY = "destino";
     private static final String KEY_DAYS = "dias";
     private static final String KEY_DESC_DAYS = "descripcion_dias";
@@ -88,6 +90,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + KEY_ID_CONSULT + " integer, "
             + KEY_ID_NOTIF + " integer, "
             + KEY_DATE + " text not null, "
+            + KEY_TEXT + " text not null, "
+            + KEY_TYPE + " integer, "
             + "FOREIGN KEY ("+ KEY_ID_CONSULT +") REFERENCES " + DATABASE_TABLE_QUERYS + "("+KEY_ID+")"
             + ");";
 
@@ -280,5 +284,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static String getKeyLon() {
         return KEY_LON;
+    }
+
+    public static String getKeyText() {
+        return KEY_TEXT;
+    }
+
+    public static String getKeyType() {
+        return KEY_TYPE;
     }
 }

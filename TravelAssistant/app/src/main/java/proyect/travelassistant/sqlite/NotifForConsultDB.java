@@ -17,7 +17,8 @@ public class NotifForConsultDB {
     private DatabaseHelper dbHelper;
     private SQLiteDatabase database;
     private String[] allCols = { DatabaseHelper.getKeyId(), DatabaseHelper.getKeyIdConsult(),
-            DatabaseHelper.getKeyIdNotif(), DatabaseHelper.getKeyDate()};
+            DatabaseHelper.getKeyIdNotif(), DatabaseHelper.getKeyDate(), DatabaseHelper.getKeyText(),
+            DatabaseHelper.getKeyType()};
 
     public NotifForConsultDB(Context context) {
         dbHelper = new DatabaseHelper(context);
@@ -32,11 +33,13 @@ public class NotifForConsultDB {
     }
 
 
-    public long createNotificacionParaConsulta(long idConsulta, long idNotificacion, String fecha) {
+    public long createNotificacionParaConsulta(long idConsulta, long idNotificacion, String fecha, String texto, int type) {
         ContentValues initialValues = new ContentValues();
         initialValues.put(DatabaseHelper.getKeyIdConsult(), idConsulta);
         initialValues.put(DatabaseHelper.getKeyIdNotif(), idNotificacion);
         initialValues.put(DatabaseHelper.getKeyDate(), fecha);
+        initialValues.put(DatabaseHelper.getKeyText(),texto);
+        initialValues.put(DatabaseHelper.getKeyType(),type);
         return database.insert(DatabaseHelper.getDatabaseTableRecomesForQuerys(), null, initialValues);
     }
 
@@ -45,11 +48,13 @@ public class NotifForConsultDB {
                 DatabaseHelper.getKeyId() + "=" + rowId, null) > 0;
     }
 
-    public boolean updateNotificacionParaConsulta(long rowId, long idConsulta, long idNotificacion, String fecha) {
+    public boolean updateNotificacionParaConsulta(long rowId, long idConsulta, long idNotificacion, String fecha, String texto, int type) {
         ContentValues args = new ContentValues();
         args.put(DatabaseHelper.getKeyIdConsult(), idConsulta);
         args.put(DatabaseHelper.getKeyIdNotif(), idNotificacion);
         args.put(DatabaseHelper.getKeyDate(), fecha);
+        args.put(DatabaseHelper.getKeyText(), texto);
+        args.put(DatabaseHelper.getKeyType(), type);
         return database.update(DatabaseHelper.getDatabaseTableRecomesForQuerys(), args,
                 DatabaseHelper.getKeyId() + "=" + rowId, null) > 0;
     }
@@ -98,6 +103,8 @@ public class NotifForConsultDB {
         n.setConsulta(Long.parseLong(cursor.getString(1)));
         n.setNotificacion(Long.parseLong(cursor.getString(2)));
         n.setFecha(cursor.getString(3));
+        n.setText(cursor.getString(4));
+        n.setType(Integer.parseInt(cursor.getString(5)));
         return n;
     }
 
