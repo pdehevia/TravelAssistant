@@ -12,6 +12,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.TextViewCompat;
 import android.util.Log;
@@ -36,7 +37,9 @@ import java.util.List;
 import proyect.travelassistant.R;
 import proyect.travelassistant.activitys.HistoricalActivity;
 import proyect.travelassistant.activitys.ResultActivity;
+import proyect.travelassistant.beans.AuxiliarData;
 import proyect.travelassistant.beans.HistoricalFileBean;
+import proyect.travelassistant.beans.ScheduledInfoBean;
 import proyect.travelassistant.beans.worldweather.Response;
 import proyect.travelassistant.sqlite.Consult;
 import proyect.travelassistant.sqlite.CriteryDB;
@@ -89,19 +92,19 @@ public class FragmentHistoricalResult extends Fragment {
         TextView tvTitle = new TextView(getContext());
         tvTitle.setText(consult.getDestino() + " ("+ consult.getFecha()+")");
         TextViewCompat.setTextAppearance(tvTitle, R.style.Style_Title_Historic);
-        LinearLayout.LayoutParams par1 = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT,7);
+        LinearLayout.LayoutParams par1 = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT,8);
         par1.setMargins(10,10,30,10);
         tvTitle.setLayoutParams(par1);
         fileTitle.addView(tvTitle);
 
         LinearLayout llbtn = new LinearLayout(getContext());
-        llbtn.setOrientation(LinearLayout.HORIZONTAL);
-        LinearLayout.LayoutParams pllbtn= new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.WRAP_CONTENT,3);
+        llbtn.setOrientation(LinearLayout.VERTICAL);
+        LinearLayout.LayoutParams pllbtn= new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.WRAP_CONTENT,2);
         llbtn.setGravity(Gravity.CENTER);
         llbtn.setLayoutParams(pllbtn);
 
         Button btnUpdate = new Button(getContext());
-        LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams(80, 80);
+        LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams(100, 100);
         btnParams.setMargins(10,10,10,10);
         btnUpdate.setLayoutParams(btnParams);
         btnUpdate.setBackgroundResource(R.drawable.custom_btn_updatehist);
@@ -125,6 +128,31 @@ public class FragmentHistoricalResult extends Fragment {
             }
         });
         llbtn.addView(btnUpdate);
+
+        Button btnNotifications = new Button(getContext());
+        LinearLayout.LayoutParams btnParams2 = new LinearLayout.LayoutParams(100, 100);
+        btnParams2.setMargins(10,10,10,10);
+        btnNotifications.setLayoutParams(btnParams2);
+        btnNotifications.setBackgroundResource(R.drawable.custom_btn_notifhist);
+        btnNotifications.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ScheduledInfoBean scheduledInfo = new ScheduledInfoBean();
+                scheduledInfo.setNameCity(consult.getDestino());
+                scheduledInfo.setIdQuery(consult.getId());
+                List<String> recoms = new ArrayList<String>();
+                for(int i=0;i<files.size();i++){
+                    recoms.add(files.get(i).getRecom().getDescripcion());
+                }
+                scheduledInfo.setRecoms(recoms);
+                AuxiliarData.getSingletonInstance().setScheduledInfo(scheduledInfo);
+
+                FragmentScheduleNotification fsn = new FragmentScheduleNotification();
+                fsn.show(getFragmentManager(),"ScheduleFragment");
+            }
+        });
+        llbtn.addView(btnNotifications);
+
         fileTitle.addView(llbtn);
         ll.addView(fileTitle);
 
@@ -389,7 +417,7 @@ public class FragmentHistoricalResult extends Fragment {
 
         @Override
         protected String doInBackground(Void... params) {
-            String url = "http://api.worldweatheronline.com/premium/v1/weather.ashx?key="+getString(R.string.key)+"&q="+consult.getLat()+","+consult.getLon()+"&format=json&num_of_days="+consult.getDias()+"&lang=es";
+            String url = "https://api.worldweatheronline.com/premium/v1/weather.ashx?key="+getString(R.string.key)+"&q="+consult.getLat()+","+consult.getLon()+"&format=json&num_of_days="+consult.getDias()+"&lang=es";
             try {
                 String responseString =  RestClient.getJsonResponse(url);
                 int i=0;

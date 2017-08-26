@@ -20,4 +20,10 @@
         <item>Avión, barco, tren, autobús</item>
         <item>Vehículo propio</item>
     </string-array>
+
+    <string-array name="notification_options_array">
+        <item>Por defecto</item>
+        <item>Recomendación concreta</item>
+        <item>Personalizada</item>
+    </string-array>
 </resources>

@@ -33,5 +33,6 @@
     <color name="colorBackgroundCarrousel">#D8D8D8</color>
     <color name="colorItemCarrousel">#FFFFFF</color>
     <color name="colorHelp">#424242</color>
+    <color name="colorBackgroundScheduleText">#E6E6E6</color>
 
 </resources>

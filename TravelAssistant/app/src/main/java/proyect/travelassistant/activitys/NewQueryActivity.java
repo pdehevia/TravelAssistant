@@ -312,7 +312,7 @@ public class NewQueryActivity extends BaseActivity implements OnMapReadyCallback
                 dias = 3;
             }
 
-            String url = "http://api.worldweatheronline.com/premium/v1/weather.ashx?key="+getString(R.string.key)+"&q="+coordenadas.latitude+","+coordenadas.longitude+"&format=json&num_of_days="+dias+"&lang=es";
+            String url = "https://api.worldweatheronline.com/premium/v1/weather.ashx?key="+getString(R.string.key)+"&q="+coordenadas.latitude+","+coordenadas.longitude+"&format=json&num_of_days="+dias+"&lang=es";
             try {
                 String responseString =  RestClient.getJsonResponse(url);
                 int i=0;

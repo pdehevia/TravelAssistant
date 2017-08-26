@@ -72,6 +72,13 @@ public class ConsultsDB {
                 DatabaseHelper.getKeyId() + "=" + rowId, null) > 0;
     }
 
+    public boolean updateConsultaDate(long rowId, String fecha){
+        ContentValues args = new ContentValues();
+        args.put(DatabaseHelper.getKeyDate(), fecha);
+        return database.update(DatabaseHelper.getDatabaseTableQuerys(), args,
+                DatabaseHelper.getKeyId() + "=" + rowId, null) > 0;
+    }
+
     public boolean updateConsulta(long rowId, int dias, String descDias, String tMin, String tMax) {
         ContentValues args = new ContentValues();
         args.put(DatabaseHelper.getKeyDays(), dias);

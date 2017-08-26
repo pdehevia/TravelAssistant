@@ -1,0 +1,204 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="proyect.travelassistant.fragments.FragmentScheduleNotification"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/scheduleTv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/scheduled_switch"
+            android:textColor="@color/black"/>
+
+        <Switch
+            android:id="@+id/scheduleSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:checked="false"
+            android:gravity="center_vertical"
+            android:text="" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/schedule_ll_select_hour"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/scheduleTv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/scheduled_hour"
+                android:textColor="@color/black"/>
+
+            <ImageView
+                android:id="@+id/scheduleIv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/clock" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/scheduleTvHour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/scheduled_hour_default" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/schedule_ll_select_type"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/scheduled_type"
+            android:textColor="@color/black"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_spinner"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/schedule_spinner_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:spinnerMode="dropdown" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:src="@drawable/spinner" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/schedule_ll_select_recom"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textViewDuration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/scheduled_recom"
+            android:textColor="@color/black"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_spinner"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/schedule_spinner_recom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:spinnerMode="dropdown" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:src="@drawable/spinner" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="@string/scheduled_text"
+        android:textColor="@color/black"/>
+
+    <EditText
+        android:id="@+id/scheduleEt"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:padding="5dp"
+        android:layout_height="120dp"
+        android:inputType="textMultiLine"
+        android:maxLength="300"
+        android:textColor="@color/colorPrimary"
+        android:textSize="14sp"
+        android:background="@color/colorBackgroundScheduleText"
+        android:text="@string/scheduled_type_def_desc"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/buttonCancelEditSchedule"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/custom_btn"
+            android:text="@string/button_cancel"
+            android:textColor="@android:color/white"
+            android:textStyle="normal|bold" />
+
+        <Button
+            android:id="@+id/buttonSaveEditSchedule"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/custom_btn"
+            android:text="@string/button_save"
+            android:textColor="@android:color/white"
+            android:textStyle="normal|bold" />
+    </LinearLayout>
+
+</LinearLayout>

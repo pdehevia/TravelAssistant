@@ -74,8 +74,11 @@ public class FragmentTabResultsRecom extends Fragment {
             ConsultsDB consultsDB = new ConsultsDB(getContext());
             consultsDB.open();
 
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            String currentDateandTime = sdf.format(new Date());
             if(ra.consultaExistente){
                 idConsulta = ra.idConsulta;
+                consultsDB.updateConsultaDate(idConsulta,currentDateandTime);
             }else{
                 List<Consult> consults = consultsDB.getConsultas();
                 if(consults.size()>9){
@@ -85,8 +88,6 @@ public class FragmentTabResultsRecom extends Fragment {
                     recomsForConsultDB.deleteRecomendacionParaConsultaConIdConsulta(consults.get(0).getId());
                     recomsForConsultDB.close();
                 }
-                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-                String currentDateandTime = sdf.format(new Date());
                 idConsulta = consultsDB.createConsulta(currentDateandTime,ra.destino,0,"","","",ra.lat,ra.lon);
             }
             consultsDB.close();

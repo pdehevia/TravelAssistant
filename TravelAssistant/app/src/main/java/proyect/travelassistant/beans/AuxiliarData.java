@@ -14,6 +14,7 @@ public class AuxiliarData {
     private static AuxiliarData singletonInstance;
 
     private List<OpenWeatherResponseBean> itemsCarrousel = new ArrayList<>();
+    private ScheduledInfoBean scheduledInfo = new ScheduledInfoBean();
 
     public AuxiliarData (){
 
@@ -32,5 +33,13 @@ public class AuxiliarData {
 
     public void setItemsCarrousel(List<OpenWeatherResponseBean> itemsCarrousel) {
         this.itemsCarrousel = itemsCarrousel;
+    }
+
+    public ScheduledInfoBean getScheduledInfo() {
+        return scheduledInfo;
+    }
+
+    public void setScheduledInfo(ScheduledInfoBean scheduledInfo) {
+        this.scheduledInfo = scheduledInfo;
     }
 }
