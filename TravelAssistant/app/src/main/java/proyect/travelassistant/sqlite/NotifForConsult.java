@@ -9,19 +9,28 @@ public class NotifForConsult {
     private long notificacion;
     private long consulta;
     private String fecha;
-    private String text;
-    private int type;
+    private String hora;
+    private String texto;
+    private boolean activa;
+    private int tipo;
+
+    public static int DEFAULT_TYPE = 0;
+    public static int RECOM_TYPE = 1;
+    public static int CUSTOM_TYPE = 2;
+    public static int NO_ACTIVE_TYPE = 99;
 
     public NotifForConsult() {
     }
 
-    public NotifForConsult(long id, long notificacion, long consulta, String fecha, String text, int type) {
+    public NotifForConsult(long id, long notificacion, long consulta, String fecha, String hora, String texto, boolean activa, int tipo) {
         this.id = id;
         this.notificacion = notificacion;
         this.consulta = consulta;
         this.fecha = fecha;
-        this.text = text;
-        this.type = type;
+        this.hora = hora;
+        this.texto = texto;
+        this.activa = activa;
+        this.tipo = tipo;
     }
 
     public long getId() {
@@ -56,19 +65,35 @@ public class NotifForConsult {
         this.fecha = fecha;
     }
 
-    public String getText() {
-        return text;
+    public String getHora() {
+        return hora;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setHora(String hora) {
+        this.hora = hora;
     }
 
-    public int getType() {
-        return type;
+    public String getTexto() {
+        return texto;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setTexto(String texto) {
+        this.texto = texto;
+    }
+
+    public boolean isActiva() {
+        return activa;
+    }
+
+    public void setActiva(boolean activa) {
+        this.activa = activa;
+    }
+
+    public int getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
     }
 }

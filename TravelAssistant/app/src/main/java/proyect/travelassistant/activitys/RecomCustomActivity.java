@@ -59,7 +59,7 @@ public class RecomCustomActivity extends BaseActivity implements AdapterView.OnI
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Recom item = adaptador.getItem(position);
         //TextView t = (TextView) view.findViewById(R.id.textoRecomendacion);
-        //t.setText("CLICK");
+        //t.setTexto("CLICK");
 
         Intent intent = new Intent(this,EditRecomActivity.class);
         intent.putExtra("Item",item);

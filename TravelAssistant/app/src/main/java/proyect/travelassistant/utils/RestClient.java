@@ -60,14 +60,19 @@ public class RestClient {
     }
 
     public static String convertirInputStreamAString(InputStream is) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-        String line;
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        String line = null;
         String result ="";
-        while ((line = br.readLine()) != null) {
-            result += line;
+        try{
+            while((line = br.readLine())!= null){
+                result += line;
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }finally {
+            is.close();
         }
-        is.close();
-        //System.out.println("RESULT = "+ result);
+
         return result;
 
     }

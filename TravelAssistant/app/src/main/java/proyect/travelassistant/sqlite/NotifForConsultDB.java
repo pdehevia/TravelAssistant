@@ -6,9 +6,6 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by Pablo on 26/08/2017.
  */
@@ -17,8 +14,8 @@ public class NotifForConsultDB {
     private DatabaseHelper dbHelper;
     private SQLiteDatabase database;
     private String[] allCols = { DatabaseHelper.getKeyId(), DatabaseHelper.getKeyIdConsult(),
-            DatabaseHelper.getKeyIdNotif(), DatabaseHelper.getKeyDate(), DatabaseHelper.getKeyText(),
-            DatabaseHelper.getKeyType()};
+            DatabaseHelper.getKeyIdNotif(), DatabaseHelper.getKeyDate(), DatabaseHelper.getKeyHour(),
+            DatabaseHelper.getKeyText(),DatabaseHelper.getKeyActive(), DatabaseHelper.getKeyType()};
 
     public NotifForConsultDB(Context context) {
         dbHelper = new DatabaseHelper(context);
@@ -33,68 +30,42 @@ public class NotifForConsultDB {
     }
 
 
-    public long createNotificacionParaConsulta(long idConsulta, long idNotificacion, String fecha, String texto, int type) {
+    public long createNotificacionParaConsulta(long idConsulta, long idNotificacion, String fecha, String hora, String texto,boolean activa, int tipo) {
         ContentValues initialValues = new ContentValues();
         initialValues.put(DatabaseHelper.getKeyIdConsult(), idConsulta);
         initialValues.put(DatabaseHelper.getKeyIdNotif(), idNotificacion);
         initialValues.put(DatabaseHelper.getKeyDate(), fecha);
+        initialValues.put(DatabaseHelper.getKeyHour(), hora);
         initialValues.put(DatabaseHelper.getKeyText(),texto);
-        initialValues.put(DatabaseHelper.getKeyType(),type);
-        return database.insert(DatabaseHelper.getDatabaseTableRecomesForQuerys(), null, initialValues);
+        if(activa){
+            initialValues.put(DatabaseHelper.getKeyActive(),1);
+        }else{
+            initialValues.put(DatabaseHelper.getKeyActive(),0);
+        }
+        initialValues.put(DatabaseHelper.getKeyType(),tipo);
+        return database.insert(DatabaseHelper.getDatabaseTableNotifsForQuerys(), null, initialValues);
     }
 
     public boolean deleteNotificacionParaConsulta(long rowId) {
-        return database.delete(DatabaseHelper.getDatabaseTableRecomesForQuerys(),
+        return database.delete(DatabaseHelper.getDatabaseTableNotifsForQuerys(),
                 DatabaseHelper.getKeyId() + "=" + rowId, null) > 0;
     }
 
-    public boolean updateNotificacionParaConsulta(long rowId, long idConsulta, long idNotificacion, String fecha, String texto, int type) {
+    public boolean updateNotificacionParaConsulta(long rowId, long idConsulta, long idNotificacion, String fecha, String hora, String texto,boolean activa, int tipo) {
         ContentValues args = new ContentValues();
         args.put(DatabaseHelper.getKeyIdConsult(), idConsulta);
         args.put(DatabaseHelper.getKeyIdNotif(), idNotificacion);
         args.put(DatabaseHelper.getKeyDate(), fecha);
+        args.put(DatabaseHelper.getKeyHour(), hora);
         args.put(DatabaseHelper.getKeyText(), texto);
-        args.put(DatabaseHelper.getKeyType(), type);
-        return database.update(DatabaseHelper.getDatabaseTableRecomesForQuerys(), args,
+        if(activa){
+            args.put(DatabaseHelper.getKeyActive(),1);
+        }else{
+            args.put(DatabaseHelper.getKeyActive(),0);
+        }
+        args.put(DatabaseHelper.getKeyType(), tipo);
+        return database.update(DatabaseHelper.getDatabaseTableNotifsForQuerys(), args,
                 DatabaseHelper.getKeyId() + "=" + rowId, null) > 0;
-    }
-
-    public boolean deleteRecomendacionParaConsultaConIdConsulta(long rowIdConsulta) {
-        return database.delete(DatabaseHelper.getDatabaseTableRecomesForQuerys(),
-                DatabaseHelper.getKeyIdConsult() + "=" + rowIdConsulta, null) > 0;
-    }
-
-    public boolean deleteRecomendacionParaConsultaConIdNotificacion(long idNotificacion) {
-        return database.delete(DatabaseHelper.getDatabaseTableRecomesForQuerys(),
-                DatabaseHelper.getKeyIdNotif()+ "=" + idNotificacion, null) > 0;
-    }
-
-    public List<NotifForConsult> getNotificacionParaConsulta() {
-        List<NotifForConsult> notesId = new ArrayList<NotifForConsult>();
-        Cursor cursor = database.query(DatabaseHelper.getDatabaseTableRecomesForQuerys(),
-                allCols, null, null, null, null, null);
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            notesId.add(cursorToNotificacionParaConsulta(cursor));
-            cursor.moveToNext();
-        }
-        cursor.close();
-        return notesId;
-    }
-
-    public Cursor getCursorNotificacionParaConsulta() {
-        return database.query(DatabaseHelper.getDatabaseTableRecomesForQuerys(), allCols,
-                null, null, null, null, null);
-    }
-
-    public Cursor fetchNotificacionParaConsulta(long rowId) throws SQLException {
-        Cursor cursor = database.query(DatabaseHelper.getDatabaseTableRecomesForQuerys(),
-                allCols, DatabaseHelper.getKeyId() + "=" + rowId, null,
-                null, null, null);
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-        return cursor;
     }
 
     private NotifForConsult cursorToNotificacionParaConsulta(Cursor cursor) {
@@ -103,22 +74,29 @@ public class NotifForConsultDB {
         n.setConsulta(Long.parseLong(cursor.getString(1)));
         n.setNotificacion(Long.parseLong(cursor.getString(2)));
         n.setFecha(cursor.getString(3));
-        n.setText(cursor.getString(4));
-        n.setType(Integer.parseInt(cursor.getString(5)));
+        n.setHora(cursor.getString(4));
+        n.setTexto(cursor.getString(5));
+        int aux = Integer.parseInt(cursor.getString(6));
+        n.setActiva(aux == 1);
+        n.setTipo(Integer.parseInt(cursor.getString(7)));
         return n;
     }
 
-    public Cursor getNotificacionParaConsultaForId(long id) {
+    public NotifForConsult getNotificacionParaConsultaForId(long id) {
         String cond = "" + DatabaseHelper.getKeyId() + "=?";
         String[] args = new String[] { String.valueOf(id) };
-        return database.query(DatabaseHelper.getDatabaseTableRecomesForQuerys(), allCols,
+        Cursor c = database.query(DatabaseHelper.getDatabaseTableNotifsForQuerys(), allCols,
                 cond, args, null, null, null);
+        c.moveToFirst();
+        return cursorToNotificacionParaConsulta(c);
     }
 
-    public Cursor getNotificacionParaConsultaId(long idConsulta) {
+    public NotifForConsult getNotificacionParaConsultaId(long idConsulta) {
         String cond = "" + DatabaseHelper.getKeyIdConsult() + "=?";
         String[] args = new String[] { String.valueOf(idConsulta) };
-        return database.query(DatabaseHelper.getDatabaseTableRecomesForQuerys(), allCols,
+        Cursor c = database.query(DatabaseHelper.getDatabaseTableNotifsForQuerys(), allCols,
                 cond, args, null, null, null);
+        c.moveToFirst();
+        return cursorToNotificacionParaConsulta(c);
     }
 }

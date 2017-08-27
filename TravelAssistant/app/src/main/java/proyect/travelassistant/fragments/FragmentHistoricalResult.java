@@ -43,6 +43,8 @@ import proyect.travelassistant.beans.ScheduledInfoBean;
 import proyect.travelassistant.beans.worldweather.Response;
 import proyect.travelassistant.sqlite.Consult;
 import proyect.travelassistant.sqlite.CriteryDB;
+import proyect.travelassistant.sqlite.NotifForConsult;
+import proyect.travelassistant.sqlite.NotifForConsultDB;
 import proyect.travelassistant.sqlite.RecomsForConsultDB;
 import proyect.travelassistant.sqlite.RecomsDB;
 import proyect.travelassistant.utils.RestClient;
@@ -137,9 +139,14 @@ public class FragmentHistoricalResult extends Fragment {
         btnNotifications.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                NotifForConsultDB nfcDB = new NotifForConsultDB(getContext());
+                nfcDB.open();
+                NotifForConsult nfc = nfcDB.getNotificacionParaConsultaId(consult.getId());
+                nfcDB.close();
+
                 ScheduledInfoBean scheduledInfo = new ScheduledInfoBean();
                 scheduledInfo.setNameCity(consult.getDestino());
-                scheduledInfo.setIdQuery(consult.getId());
+                scheduledInfo.setNfc(nfc);
                 List<String> recoms = new ArrayList<String>();
                 for(int i=0;i<files.size();i++){
                     recoms.add(files.get(i).getRecom().getDescripcion());

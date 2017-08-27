@@ -30,6 +30,8 @@ import proyect.travelassistant.beans.worldweather.WeatherBean;
 import proyect.travelassistant.sqlite.Consult;
 import proyect.travelassistant.sqlite.ConsultsDB;
 import proyect.travelassistant.sqlite.CriteryDB;
+import proyect.travelassistant.sqlite.NotifForConsult;
+import proyect.travelassistant.sqlite.NotifForConsultDB;
 import proyect.travelassistant.sqlite.Recom;
 import proyect.travelassistant.sqlite.RecomsForConsult;
 import proyect.travelassistant.sqlite.RecomsForConsultDB;
@@ -89,6 +91,12 @@ public class FragmentTabResultsRecom extends Fragment {
                     recomsForConsultDB.close();
                 }
                 idConsulta = consultsDB.createConsulta(currentDateandTime,ra.destino,0,"","","",ra.lat,ra.lon);
+
+                NotifForConsultDB nfcDB = new NotifForConsultDB(getContext());
+                nfcDB.open();
+                Long idNotif = 100 + idConsulta;
+                nfcDB.createNotificacionParaConsulta(idConsulta,idNotif, "-", "-", "-", false, NotifForConsult.NO_ACTIVE_TYPE);
+                nfcDB.close();
             }
             consultsDB.close();
         }

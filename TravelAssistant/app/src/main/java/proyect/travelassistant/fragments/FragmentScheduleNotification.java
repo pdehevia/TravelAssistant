@@ -25,6 +25,7 @@ import java.util.Locale;
 import proyect.travelassistant.R;
 import proyect.travelassistant.beans.AuxiliarData;
 import proyect.travelassistant.beans.ScheduledInfoBean;
+import proyect.travelassistant.sqlite.NotifForConsult;
 
 public class FragmentScheduleNotification extends DialogFragment {
     private View mView;
@@ -57,7 +58,7 @@ public class FragmentScheduleNotification extends DialogFragment {
         buttonSaveEditSchedule = (Button) mView.findViewById(R.id.buttonSaveEditSchedule);
 
         scheduledInfo = AuxiliarData.getSingletonInstance().getScheduledInfo();
-
+        
         ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(getContext(), R.array.notification_options_array, android.R.layout.simple_spinner_item);
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         schedule_spinner_type.setAdapter(adapter1);
@@ -66,14 +67,25 @@ public class FragmentScheduleNotification extends DialogFragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         schedule_spinner_recom.setAdapter(adapter);
 
-        //Default config
-        scheduleSwitch.setChecked(false);
-        scheduleTvHour.setText(getString(R.string.scheduled_hour_default));
-        hourSchedule =12;
-        minSchedule =12;
-        schedule_ll_select_recom.setVisibility(View.INVISIBLE);
-        scheduleEt.setEnabled(false);
-        scheduleEt.setText(getString(R.string.scheduled_type_def_desc) +" "+ scheduledInfo.getNameCity());
+        if(scheduledInfo.getNfc()!=null && scheduledInfo.getNfc().getTipo()!= NotifForConsult.NO_ACTIVE_TYPE){
+            //Existe notificacion
+            scheduleSwitch.setChecked(scheduledInfo.getNfc().isActiva());
+
+            String horaMin = scheduledInfo.getNfc().getHora();
+            scheduleTvHour.setText(horaMin);
+            hourSchedule = Integer.parseInt(horaMin.substring(0,1));
+            minSchedule = Integer.parseInt(horaMin.substring(3,4));
+            drawComponentsByType(scheduledInfo.getNfc().getTipo());
+        }else{
+            //Default config
+            scheduleSwitch.setChecked(false);
+            scheduleTvHour.setText(getString(R.string.scheduled_hour_default));
+            hourSchedule =12;
+            minSchedule =12;
+            schedule_ll_select_recom.setVisibility(View.INVISIBLE);
+            scheduleEt.setEnabled(false);
+            scheduleEt.setText(getString(R.string.scheduled_type_def_desc) +" "+ scheduledInfo.getNameCity());
+        }
 
         //Click change hourSchedule
         schedule_ll_select_hour.setOnClickListener(new View.OnClickListener() {
@@ -87,26 +99,7 @@ public class FragmentScheduleNotification extends DialogFragment {
         schedule_spinner_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                switch (position) {
-                    case 0: //Por defecto
-                        schedule_ll_select_recom.setVisibility(View.INVISIBLE);
-                        scheduleEt.setEnabled(false);
-                        scheduleEt.setText(getString(R.string.scheduled_type_def_desc) + " " +scheduledInfo.getNameCity());
-                        break;
-                    case 1: //Recomendación concreta
-                        schedule_ll_select_recom.setVisibility(View.VISIBLE);
-                        scheduleEt.setEnabled(false);
-                        schedule_spinner_recom.setSelection(0);
-
-                        scheduleEt.setText(getString(R.string.scheduled_type_recom_desc_1) + " " + scheduledInfo.getRecoms().get(0)
-                        + " " + getString(R.string.scheduled_type_recom_desc_2)+ " " + scheduledInfo.getNameCity());
-                        break;
-                    case 2: //Personalizada
-                        schedule_ll_select_recom.setVisibility(View.INVISIBLE);
-                        scheduleEt.setEnabled(true);
-                        scheduleEt.setText("");
-                        break;
-                }
+                drawComponentsByType(position);
             }
 
             @Override
@@ -156,6 +149,27 @@ public class FragmentScheduleNotification extends DialogFragment {
             }
         });
         return mView;
+    }
+
+    private void drawComponentsByType(int position) {
+        if(position == NotifForConsult.DEFAULT_TYPE){
+            schedule_ll_select_recom.setVisibility(View.INVISIBLE);
+            scheduleEt.setEnabled(false);
+            scheduleEt.setText(getString(R.string.scheduled_type_def_desc) + " " +scheduledInfo.getNameCity());
+        }
+        else  if(position == NotifForConsult.RECOM_TYPE){
+            schedule_ll_select_recom.setVisibility(View.VISIBLE);
+            scheduleEt.setEnabled(false);
+            schedule_spinner_recom.setSelection(0);
+
+            scheduleEt.setText(getString(R.string.scheduled_type_recom_desc_1) + " " + scheduledInfo.getRecoms().get(0)
+                    + " " + getString(R.string.scheduled_type_recom_desc_2)+ " " + scheduledInfo.getNameCity());
+        }
+        else  if(position == NotifForConsult.CUSTOM_TYPE){
+            schedule_ll_select_recom.setVisibility(View.INVISIBLE);
+            scheduleEt.setEnabled(true);
+            scheduleEt.setText("");
+        }
     }
 
     private void showTimePickerDialog(int h, int m) {

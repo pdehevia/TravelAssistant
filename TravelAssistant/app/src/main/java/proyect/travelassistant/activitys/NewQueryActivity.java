@@ -211,7 +211,7 @@ public class NewQueryActivity extends BaseActivity implements OnMapReadyCallback
                             if(direccion!= null && direccion.length()>0){
                                 searchText.setText(direccion);
                             }else{
-                                //searchText.setText("");
+                                //searchText.setTexto("");
                             }
                         }
                     }
@@ -283,7 +283,7 @@ public class NewQueryActivity extends BaseActivity implements OnMapReadyCallback
                         if(direccion!= null && direccion.length()>0){
                             searchText.setText(direccion);
                         }else{
-                            //searchText.setText("");
+                            //searchText.setTexto("");
                         }
                     }
                     mapa.animateCamera(CameraUpdateFactory.newLatLngZoom(coordenadas, 12));
