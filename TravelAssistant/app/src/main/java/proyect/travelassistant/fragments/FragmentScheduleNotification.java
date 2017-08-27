@@ -18,6 +18,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -26,6 +27,7 @@ import proyect.travelassistant.R;
 import proyect.travelassistant.beans.AuxiliarData;
 import proyect.travelassistant.beans.ScheduledInfoBean;
 import proyect.travelassistant.sqlite.NotifForConsult;
+import proyect.travelassistant.sqlite.NotifForConsultDB;
 
 public class FragmentScheduleNotification extends DialogFragment {
     private View mView;
@@ -42,11 +44,13 @@ public class FragmentScheduleNotification extends DialogFragment {
 
     private int hourSchedule;
     private int minSchedule;
+    private boolean existNotifOnCharge;
+    private int indexRecom;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_schedule_notification, container, false);
-
+        existNotifOnCharge = false;
         scheduleSwitch = (Switch) mView.findViewById(R.id.scheduleSwitch);
         schedule_ll_select_hour = (LinearLayout) mView.findViewById(R.id.schedule_ll_select_hour);
         scheduleTvHour = (TextView) mView.findViewById(R.id.scheduleTvHour);
@@ -58,7 +62,7 @@ public class FragmentScheduleNotification extends DialogFragment {
         buttonSaveEditSchedule = (Button) mView.findViewById(R.id.buttonSaveEditSchedule);
 
         scheduledInfo = AuxiliarData.getSingletonInstance().getScheduledInfo();
-        
+
         ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(getContext(), R.array.notification_options_array, android.R.layout.simple_spinner_item);
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         schedule_spinner_type.setAdapter(adapter1);
@@ -69,13 +73,27 @@ public class FragmentScheduleNotification extends DialogFragment {
 
         if(scheduledInfo.getNfc()!=null && scheduledInfo.getNfc().getTipo()!= NotifForConsult.NO_ACTIVE_TYPE){
             //Existe notificacion
+            existNotifOnCharge = true;
             scheduleSwitch.setChecked(scheduledInfo.getNfc().isActiva());
 
             String horaMin = scheduledInfo.getNfc().getHora();
             scheduleTvHour.setText(horaMin);
-            hourSchedule = Integer.parseInt(horaMin.substring(0,1));
-            minSchedule = Integer.parseInt(horaMin.substring(3,4));
-            drawComponentsByType(scheduledInfo.getNfc().getTipo());
+            hourSchedule = Integer.parseInt(horaMin.substring(0,2));
+            minSchedule = Integer.parseInt(horaMin.substring(3,5));
+
+            schedule_spinner_type.setSelection(scheduledInfo.getNfc().getTipo());
+            String recom = scheduledInfo.getNfc().getTexto().replace(getString(R.string.scheduled_type_recom_desc_1),"");
+            recom = recom.replace(getString(R.string.scheduled_type_recom_desc_2),"");
+            recom = recom.replace(scheduledInfo.getNameCity(),"").trim();
+
+            indexRecom =0;
+            for(int i=0; i<scheduledInfo.getRecoms().size();i++){
+                if(recom.equals(scheduledInfo.getRecoms().get(i))){
+                    indexRecom = i;
+                    break;
+                }
+            }
+            schedule_spinner_recom.setSelection(indexRecom);
         }else{
             //Default config
             scheduleSwitch.setChecked(false);
@@ -144,8 +162,36 @@ public class FragmentScheduleNotification extends DialogFragment {
         buttonSaveEditSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismiss();
+
+                //Obtain DATE
+                Date date = new Date();
+                DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                String today = formatter.format(date);
+
+                //Obtain HOUR
+                String hour = scheduleTvHour.getText().toString();
+
+                //Obtain TEXT
+                String text = scheduleEt.getText().toString();
+
+                //Obtain ACTIVE
+                boolean active = scheduleSwitch.isChecked();
+
+                //Obtain TYPE
+                int type = NotifForConsult.NO_ACTIVE_TYPE;
+                if(active){
+                    type = schedule_spinner_type.getSelectedItemPosition();
+                }
+
+                //update BBDD
+                NotifForConsultDB nfcDB = new NotifForConsultDB(getContext());
+                nfcDB.open();
+                nfcDB.updateNotificacionParaConsulta(scheduledInfo.getNfc().getId(),scheduledInfo.getNfc().getConsulta(),
+                        scheduledInfo.getNfc().getNotificacion(),today,hour,text,active,type);
+                nfcDB.close();
                 //TODO: CREAR NOTIFICACION
+
+                dismiss();
             }
         });
         return mView;
@@ -160,16 +206,28 @@ public class FragmentScheduleNotification extends DialogFragment {
         else  if(position == NotifForConsult.RECOM_TYPE){
             schedule_ll_select_recom.setVisibility(View.VISIBLE);
             scheduleEt.setEnabled(false);
-            schedule_spinner_recom.setSelection(0);
 
-            scheduleEt.setText(getString(R.string.scheduled_type_recom_desc_1) + " " + scheduledInfo.getRecoms().get(0)
+            int index = 0;
+            if(existNotifOnCharge){
+                index = indexRecom;
+            }
+
+            schedule_spinner_recom.setSelection(index);
+
+            scheduleEt.setText(getString(R.string.scheduled_type_recom_desc_1) + " " + scheduledInfo.getRecoms().get(index)
                     + " " + getString(R.string.scheduled_type_recom_desc_2)+ " " + scheduledInfo.getNameCity());
         }
         else  if(position == NotifForConsult.CUSTOM_TYPE){
             schedule_ll_select_recom.setVisibility(View.INVISIBLE);
             scheduleEt.setEnabled(true);
-            scheduleEt.setText("");
+
+            String text = "";
+            if(existNotifOnCharge){
+                text = scheduledInfo.getNfc().getTexto();
+            }
+            scheduleEt.setText(text);
         }
+        existNotifOnCharge = false;
     }
 
     private void showTimePickerDialog(int h, int m) {
