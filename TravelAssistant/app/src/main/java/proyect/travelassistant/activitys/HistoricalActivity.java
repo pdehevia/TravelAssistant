@@ -26,12 +26,17 @@ public class HistoricalActivity extends BaseActivity {
     public boolean estoyEnListado = true;
     public boolean quieroBorrar = false;
     private Activity activity;
+    int idItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentChildView(R.layout.activity_historical);
         setFirstLevelToolbar(getResources().getString(R.string.menu_item3));
+
+        Intent intent = getIntent();
+        idItem = intent.getIntExtra("NotifID",-1);
+
         activity = this;
 
         ConsultsDB consultsDB = new ConsultsDB(getApplicationContext());
@@ -62,6 +67,7 @@ public class HistoricalActivity extends BaseActivity {
 
     private void mostrarListadoFragment(){
         FragmentHistoricalList newFragment = new FragmentHistoricalList();
+        newFragment.selectItem = idItem;
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, newFragment);
         transaction.addToBackStack(null);

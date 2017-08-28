@@ -315,15 +315,6 @@ public class NewQueryActivity extends BaseActivity implements OnMapReadyCallback
             String url = "https://api.worldweatheronline.com/premium/v1/weather.ashx?key="+getString(R.string.key)+"&q="+coordenadas.latitude+","+coordenadas.longitude+"&format=json&num_of_days="+dias+"&lang=es";
             try {
                 String responseString =  RestClient.getJsonResponse(url);
-                int i=0;
-                while(i<3){
-                    i++;
-                    if(responseString.equals("")){
-                        responseString =  RestClient.getJsonResponse(url);
-                    }else{
-                        i=3;
-                    }
-                }
                 return responseString;
 
             } catch (Exception e) {

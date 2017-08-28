@@ -16,6 +16,8 @@ import proyect.travelassistant.adapters.RecyclerAdapterHistorial;
 public class FragmentHistoricalList extends Fragment implements AdapterView.OnItemClickListener {
 
     private View view;
+    private HistoricalActivity ha;
+    public int selectItem;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,7 +29,7 @@ public class FragmentHistoricalList extends Fragment implements AdapterView.OnIt
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_historical_list, container, false);
 
-        HistoricalActivity ha = (HistoricalActivity) getActivity();
+        ha = (HistoricalActivity) getActivity();
         ha.setFirstLevelToolbar(getResources().getString(R.string.menu_item3));
 
         if(ha.quieroBorrar){
@@ -41,6 +43,7 @@ public class FragmentHistoricalList extends Fragment implements AdapterView.OnIt
             recyclerView.setAdapter(adaptador);
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
             recyclerView.setLayoutManager(layoutManager);
+
         }else{
             ha.mostrarFragmentVacio();
         }
@@ -49,7 +52,25 @@ public class FragmentHistoricalList extends Fragment implements AdapterView.OnIt
     }
 
     @Override
+    public void onResume(){
+        super.onResume();
+
+        if(selectItem!=-1){
+            for(int i=0;i<ha.consults.size();i++){
+                if(ha.consults.get(i).getId()==(selectItem-100)){
+                    goToSelect(i);
+                    break;
+                }
+            }
+        }
+    }
+
+    @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        goToSelect(position);
+    }
+
+    private void goToSelect(int position){
         HistoricalActivity ha = (HistoricalActivity) getActivity();
         ha.consultado = position;
         ha.estoyEnListado = false;

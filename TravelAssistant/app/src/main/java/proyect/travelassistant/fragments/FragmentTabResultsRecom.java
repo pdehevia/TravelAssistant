@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,6 +26,8 @@ import java.util.Map;
 
 import proyect.travelassistant.R;
 import proyect.travelassistant.activitys.ResultActivity;
+import proyect.travelassistant.beans.AuxiliarData;
+import proyect.travelassistant.beans.ScheduledInfoBean;
 import proyect.travelassistant.beans.worldweather.HourlyBean;
 import proyect.travelassistant.beans.worldweather.WeatherBean;
 import proyect.travelassistant.sqlite.Consult;
@@ -46,6 +49,7 @@ public class FragmentTabResultsRecom extends Fragment {
     private Map<Long,Boolean> checkBoxIndex = new HashMap<>();
     private ResultActivity ra;
     private List<Long> recomsExists = new ArrayList<>();
+    private List<String> recomsDescriptions = new ArrayList<>();
     private Map<Long,Long> recomsRowsExists = new HashMap<>();
     private Map<Long,Boolean> recomsCheckExists = new HashMap<>();
     private List<Long>  drawRecomsExists = new ArrayList<>();
@@ -65,9 +69,67 @@ public class FragmentTabResultsRecom extends Fragment {
         ra = (ResultActivity) getActivity();
 
         recomsExists.clear();
+        recomsDescriptions.clear();
         recomsRowsExists.clear();
         recomsCheckExists.clear();
         drawRecomsExists.clear();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        String currentDateandTime = sdf.format(new Date());
+
+        //HEADER
+        LinearLayout fileTitle = new LinearLayout(getContext());
+        fileTitle.setOrientation(LinearLayout.HORIZONTAL);
+        LinearLayout.LayoutParams paramsF= new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+        paramsF.setMargins(20,0,0,20);
+        fileTitle.setGravity(Gravity.CENTER_VERTICAL);
+        fileTitle.setLayoutParams(paramsF);
+        fileTitle.setWeightSum(10);
+
+        TextView tvHeader = new TextView(getContext());
+        tvHeader.setText(ra.destino + " ("+ currentDateandTime+")");
+        TextViewCompat.setTextAppearance(tvHeader, R.style.Style_Title_Historic);
+        LinearLayout.LayoutParams par1 = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT,8);
+        par1.setMargins(10,10,30,10);
+        tvHeader.setLayoutParams(par1);
+        fileTitle.addView(tvHeader);
+
+        LinearLayout llbtn = new LinearLayout(getContext());
+        llbtn.setOrientation(LinearLayout.VERTICAL);
+        LinearLayout.LayoutParams pllbtn= new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.WRAP_CONTENT,2);
+        llbtn.setGravity(Gravity.CENTER);
+        llbtn.setLayoutParams(pllbtn);
+
+        Button btnNotifications = new Button(getContext());
+        LinearLayout.LayoutParams btnParams2 = new LinearLayout.LayoutParams(100, 100);
+        btnParams2.setMargins(10,10,10,10);
+        btnNotifications.setLayoutParams(btnParams2);
+        btnNotifications.setBackgroundResource(R.drawable.custom_btn_notifhist);
+        btnNotifications.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                NotifForConsultDB nfcDB = new NotifForConsultDB(getContext());
+                nfcDB.open();
+                NotifForConsult nfc = nfcDB.getNotificacionParaConsultaId(idConsulta);
+                nfcDB.close();
+
+                ScheduledInfoBean scheduledInfo = new ScheduledInfoBean();
+                scheduledInfo.setNameCity(ra.destino);
+                scheduledInfo.setNfc(nfc);
+                scheduledInfo.setRecoms(recomsDescriptions);
+                AuxiliarData.getSingletonInstance().setScheduledInfo(scheduledInfo);
+
+                FragmentScheduleNotification fsn = new FragmentScheduleNotification();
+                fsn.show(getFragmentManager(),"ScheduleFragment");
+
+            }
+        });
+        llbtn.addView(btnNotifications);
+
+        fileTitle.addView(llbtn);
+        ll.addView(fileTitle);
+        /////////////////
 
         if(!guardado){
             indexRow.clear();
@@ -76,8 +138,6 @@ public class FragmentTabResultsRecom extends Fragment {
             ConsultsDB consultsDB = new ConsultsDB(getContext());
             consultsDB.open();
 
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-            String currentDateandTime = sdf.format(new Date());
             if(ra.consultaExistente){
                 idConsulta = ra.idConsulta;
                 consultsDB.updateConsultaDate(idConsulta,currentDateandTime);
@@ -475,6 +535,7 @@ public class FragmentTabResultsRecom extends Fragment {
 
                     TextView tvRecomen = new TextView(getContext());
                     tvRecomen.setText(cursorRecomen.getString(1));
+                    recomsDescriptions.add(cursorRecomen.getString(1));
                     TextViewCompat.setTextAppearance(tvRecomen, R.style.Style_Recoms);
 
                     LinearLayout.LayoutParams paramsAux = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);

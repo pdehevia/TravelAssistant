@@ -47,14 +47,14 @@ public class RestClient {
     public static InputStream obtenerInputStreamNoParams(String urlServicio) throws Exception {
         URL url = new URL(urlServicio);
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-        httpURLConnection.setRequestProperty("Accept", "application/json");
-        httpURLConnection.setRequestProperty("Content-Type", "application/json;charset=utf-8");
-        httpURLConnection.setRequestProperty("Accept-Charset", "ISO-8859-1");
-        httpURLConnection.setConnectTimeout(60000);
-        httpURLConnection.setReadTimeout(60000);
+        //httpURLConnection.setRequestProperty("Accept", "application/json");
+        //httpURLConnection.setRequestProperty("Content-Type", "application/json;charset=utf-8");
+        //httpURLConnection.setRequestProperty("Accept-Charset", "ISO-8859-1");
+        //httpURLConnection.setConnectTimeout(60000);
+        //httpURLConnection.setReadTimeout(60000);
         httpURLConnection.setUseCaches(false);
         //httpURLConnection.setDoOutput(true);
-        httpURLConnection.setRequestMethod("GET");
+        //httpURLConnection.setRequestMethod("GET");
         httpURLConnection.connect();
         return httpURLConnection.getInputStream();
     }

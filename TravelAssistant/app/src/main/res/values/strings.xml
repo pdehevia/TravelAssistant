@@ -191,14 +191,14 @@
     <!-- SCHEDULED NOTIFICATION -->
     <string name="scheduled_switch">Activo</string>
     <string name="scheduled_hour">Hora</string>
-    <string name="scheduled_hour_default">12:00 AM</string>
+    <string name="scheduled_hour_default">12:00</string>
     <string name="scheduled_type">Tipo de mensaje:</string>
     <string name="scheduled_recom">Recomendación del recordatorio:</string>
     <string name="scheduled_text">Mensaje:</string>
     <string name="scheduled_type_def_desc">Recuerde revisar la lista de recomendaciones para su viaje a</string>
     <string name="scheduled_type_recom_desc_1">Recuerde llevar</string>
     <string name="scheduled_type_recom_desc_2">en su viaje a </string>
-
+    <string name="notification_title">Recordatorio Travel Assistant</string>
     <!-- BBDD -->
     <string name="rec_bbdd_00">Recomendación estándar</string>
     <string name="rec_bbdd_01">Recomendación por viaje de 1 a 3 días de duración</string>

@@ -26,6 +26,8 @@ import java.util.Locale;
 import proyect.travelassistant.R;
 import proyect.travelassistant.beans.AuxiliarData;
 import proyect.travelassistant.beans.ScheduledInfoBean;
+import proyect.travelassistant.broadcastreceiver.AlarmReceiver;
+import proyect.travelassistant.broadcastreceiver.NotificationScheduler;
 import proyect.travelassistant.sqlite.NotifForConsult;
 import proyect.travelassistant.sqlite.NotifForConsultDB;
 
@@ -78,8 +80,14 @@ public class FragmentScheduleNotification extends DialogFragment {
 
             String horaMin = scheduledInfo.getNfc().getHora();
             scheduleTvHour.setText(horaMin);
-            hourSchedule = Integer.parseInt(horaMin.substring(0,2));
-            minSchedule = Integer.parseInt(horaMin.substring(3,5));
+            if(horaMin.length()==4){
+                hourSchedule = Integer.parseInt(horaMin.substring(0,1));
+                minSchedule = Integer.parseInt(horaMin.substring(2,4));
+            }else{
+                hourSchedule = Integer.parseInt(horaMin.substring(0,2));
+                minSchedule = Integer.parseInt(horaMin.substring(3,5));
+            }
+
 
             schedule_spinner_type.setSelection(scheduledInfo.getNfc().getTipo());
             String recom = scheduledInfo.getNfc().getTexto().replace(getString(R.string.scheduled_type_recom_desc_1),"");
@@ -99,7 +107,7 @@ public class FragmentScheduleNotification extends DialogFragment {
             scheduleSwitch.setChecked(false);
             scheduleTvHour.setText(getString(R.string.scheduled_hour_default));
             hourSchedule =12;
-            minSchedule =12;
+            minSchedule =00;
             schedule_ll_select_recom.setVisibility(View.INVISIBLE);
             scheduleEt.setEnabled(false);
             scheduleEt.setText(getString(R.string.scheduled_type_def_desc) +" "+ scheduledInfo.getNameCity());
@@ -189,7 +197,12 @@ public class FragmentScheduleNotification extends DialogFragment {
                 nfcDB.updateNotificacionParaConsulta(scheduledInfo.getNfc().getId(),scheduledInfo.getNfc().getConsulta(),
                         scheduledInfo.getNfc().getNotificacion(),today,hour,text,active,type);
                 nfcDB.close();
-                //TODO: CREAR NOTIFICACION
+
+                if(scheduleSwitch.isChecked()){
+                    NotificationScheduler.setReminder(getContext(), AlarmReceiver.class,(int)scheduledInfo.getNfc().getNotificacion(), hourSchedule, minSchedule,getString(R.string.notification_title),scheduleEt.getText().toString());
+                }else{
+                    NotificationScheduler.cancelReminder(getContext(),AlarmReceiver.class,(int)scheduledInfo.getNfc().getNotificacion());
+                }
 
                 dismiss();
             }
@@ -241,31 +254,13 @@ public class FragmentScheduleNotification extends DialogFragment {
                     public void onTimeSet(TimePicker timePicker, int hour, int min) {
                         hourSchedule = hour;
                         minSchedule = min;
-                        scheduleTvHour.setText(getFormatedTime(hour, min));
+                        scheduleTvHour.setText(hour+":"+min);
                     }
-                }, h, m, false);
+                }, h, m, true);
 
         builder.setCustomTitle(view);
         builder.show();
 
-    }
-    public String getFormatedTime(int h, int m) {
-        final String OLD_FORMAT = "HH:mm";
-        final String NEW_FORMAT = "hh:mm a";
-
-        String oldDateString = h + ":" + m;
-        String newDateString = "";
-
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT, getCurrentLocale());
-            Date d = sdf.parse(oldDateString);
-            sdf.applyPattern(NEW_FORMAT);
-            newDateString = sdf.format(d);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return newDateString;
     }
 
     @TargetApi(Build.VERSION_CODES.N)

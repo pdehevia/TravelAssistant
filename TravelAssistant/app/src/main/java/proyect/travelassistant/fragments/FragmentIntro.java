@@ -72,6 +72,8 @@ public class FragmentIntro  extends Fragment {
     private DatabaseReference mDatabaseAdvices;
     private DatabaseReference mDatabasCities;
 
+    public int idItem;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_intro, container, false);
@@ -214,6 +216,12 @@ public class FragmentIntro  extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        if(idItem!=-1){
+            Intent intent = new Intent(getActivity(), HistoricalActivity.class);
+            intent.putExtra("NotifID",idItem);
+            startActivity(intent);
+            getActivity().finish();
+        }
     }
 
     @Override
