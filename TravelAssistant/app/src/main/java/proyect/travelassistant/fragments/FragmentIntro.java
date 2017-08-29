@@ -45,6 +45,8 @@ import proyect.travelassistant.beans.AuxiliarData;
 import proyect.travelassistant.beans.openweather.OpenWeatherResponseBean;
 import proyect.travelassistant.sqlite.Consult;
 import proyect.travelassistant.sqlite.ConsultsDB;
+import proyect.travelassistant.sqlite.NotifForConsult;
+import proyect.travelassistant.sqlite.NotifForConsultDB;
 import proyect.travelassistant.utils.RestClient;
 
 import static proyect.travelassistant.activitys.NewQueryActivity.getCustomProgressDialog;
@@ -217,10 +219,28 @@ public class FragmentIntro  extends Fragment {
     public void onResume() {
         super.onResume();
         if(idItem!=-1){
-            Intent intent = new Intent(getActivity(), HistoricalActivity.class);
-            intent.putExtra("NotifID",idItem);
-            startActivity(intent);
-            getActivity().finish();
+            NotifForConsultDB nfcDB= new NotifForConsultDB(getContext());
+            nfcDB.open();
+            NotifForConsult nfc = nfcDB.getNotificacionParaNotificacionId(idItem);
+            nfcDB.close();
+            if(nfc!=null){
+                new AlertDialog.Builder(getContext())
+                        .setTitle(getString(R.string.notification_title))
+                        .setMessage(nfc.getTexto())
+                        .setPositiveButton(getString(R.string.go_consult), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(getActivity(), HistoricalActivity.class);
+                                intent.putExtra("NotifID",idItem);
+                                startActivity(intent);
+                                getActivity().finish();
+                            }
+                        })
+                        .setIcon(R.drawable.ic_not_alert)
+                        .setNegativeButton(getString(R.string.close_dialog), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {}
+                        })
+                        .show();
+            }
         }
     }
 

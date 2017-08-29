@@ -126,6 +126,7 @@ public class FragmentHistoricalResult extends Fragment {
                         })
                         .setIcon(R.drawable.ic_warning)
                         .setNegativeButton(getString(R.string.cancel),null)
+                        .setCancelable(false)
                         .show();
             }
         });
@@ -516,10 +517,7 @@ public class FragmentHistoricalResult extends Fragment {
                             }
                         }
                     })
-                    .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    })
+                    .setNegativeButton(getString(R.string.cancel), null)
                     .show();
         }
         return isConnected;

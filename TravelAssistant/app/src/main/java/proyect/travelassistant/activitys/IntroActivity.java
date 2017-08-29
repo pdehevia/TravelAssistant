@@ -16,7 +16,7 @@ public class IntroActivity extends BaseActivity {
         setFirstLevelToolbar(getResources().getString(R.string.app_name));
 
         Intent intent = getIntent();
-        int idItem = -1;//intent.getIntExtra("NotifID",-1);
+        int idItem = intent.getIntExtra("NotifID",-1);
 
         FragmentIntro mFragment = new FragmentIntro();
         mFragment.idItem = idItem;

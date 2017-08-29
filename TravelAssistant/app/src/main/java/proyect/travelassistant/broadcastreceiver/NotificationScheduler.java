@@ -16,6 +16,8 @@ import android.support.v4.app.NotificationCompat;
 import java.util.Calendar;
 
 import proyect.travelassistant.R;
+import proyect.travelassistant.sqlite.NotifForConsult;
+import proyect.travelassistant.sqlite.NotifForConsultDB;
 
 import static android.content.Context.ALARM_SERVICE;
 
@@ -45,8 +47,6 @@ public class NotificationScheduler
 
         Intent intent1 = new Intent(context, cls);
         intent1.putExtra("ID_NOTIF",id);
-        intent1.putExtra("HH_NOTIF",hour);
-        intent1.putExtra("MM_NOTIF",min);
         intent1.putExtra("TIT_NOTIF",title);
         intent1.putExtra("TXT_NOTIF",text);
 
@@ -65,7 +65,6 @@ public class NotificationScheduler
             calendarAlarm.add(Calendar.DATE,1);
 
         long delay  = calendarAlarm.getTimeInMillis()- System.currentTimeMillis();
-        //am.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + delay, AlarmManager.INTERVAL_DAY, pendingIntent);
         am.setExact(AlarmManager.RTC_WAKEUP,System.currentTimeMillis() + delay,pendingIntent);
 
     }
@@ -103,7 +102,6 @@ public class NotificationScheduler
 
         PendingIntent pendingIntent = stackBuilder.getPendingIntent(id, PendingIntent.FLAG_UPDATE_CURRENT);
 
-
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
 
         Notification notification = builder.setContentTitle(title)
@@ -116,6 +114,15 @@ public class NotificationScheduler
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(id, notification);
 
+    }
+
+    public static void desactiveNotifState(Context context,long id){
+        NotifForConsultDB nfcDB= new NotifForConsultDB(context);
+        nfcDB.open();
+        NotifForConsult nfc = nfcDB.getNotificacionParaNotificacionId(id);
+        nfcDB.updateNotificacionParaConsulta(nfc.getId(),nfc.getConsulta(),nfc.getNotificacion(),
+                nfc.getFecha(),nfc.getHora(),nfc.getTexto(),false,nfc.getTipo());
+        nfcDB.close();
     }
 
 }

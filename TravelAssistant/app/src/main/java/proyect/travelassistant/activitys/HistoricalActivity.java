@@ -121,6 +121,7 @@ public class HistoricalActivity extends BaseActivity {
                         })
                         .setIcon(R.drawable.ic_warning)
                         .setNegativeButton(getString(R.string.cancel),null)
+                        .setCancelable(false)
                         .show();
                 break;
         }

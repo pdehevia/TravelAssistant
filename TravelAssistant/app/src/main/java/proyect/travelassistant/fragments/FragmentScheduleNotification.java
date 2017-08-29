@@ -1,7 +1,9 @@
 package proyect.travelassistant.fragments;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -17,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -43,10 +46,10 @@ public class FragmentScheduleNotification extends DialogFragment {
     private ScheduledInfoBean scheduledInfo;
     private Button buttonCancelEditSchedule;
     private Button buttonSaveEditSchedule;
-
     private int hourSchedule;
     private int minSchedule;
     private boolean existNotifOnCharge;
+    private boolean checkedOld;
     private int indexRecom;
 
     @Override
@@ -76,6 +79,7 @@ public class FragmentScheduleNotification extends DialogFragment {
         if(scheduledInfo.getNfc()!=null && scheduledInfo.getNfc().getTipo()!= NotifForConsult.NO_ACTIVE_TYPE){
             //Existe notificacion
             existNotifOnCharge = true;
+            checkedOld =scheduledInfo.getNfc().isActiva();
             scheduleSwitch.setChecked(scheduledInfo.getNfc().isActiva());
 
             String horaMin = scheduledInfo.getNfc().getHora();
@@ -171,43 +175,65 @@ public class FragmentScheduleNotification extends DialogFragment {
             @Override
             public void onClick(View v) {
 
-                //Obtain DATE
-                Date date = new Date();
-                DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                String today = formatter.format(date);
-
-                //Obtain HOUR
-                String hour = scheduleTvHour.getText().toString();
-
-                //Obtain TEXT
-                String text = scheduleEt.getText().toString();
-
                 //Obtain ACTIVE
-                boolean active = scheduleSwitch.isChecked();
+                final boolean active = scheduleSwitch.isChecked();
 
-                //Obtain TYPE
-                int type = NotifForConsult.NO_ACTIVE_TYPE;
-                if(active){
-                    type = schedule_spinner_type.getSelectedItemPosition();
-                }
-
-                //update BBDD
-                NotifForConsultDB nfcDB = new NotifForConsultDB(getContext());
-                nfcDB.open();
-                nfcDB.updateNotificacionParaConsulta(scheduledInfo.getNfc().getId(),scheduledInfo.getNfc().getConsulta(),
-                        scheduledInfo.getNfc().getNotificacion(),today,hour,text,active,type);
-                nfcDB.close();
-
-                if(scheduleSwitch.isChecked()){
-                    NotificationScheduler.setReminder(getContext(), AlarmReceiver.class,(int)scheduledInfo.getNfc().getNotificacion(), hourSchedule, minSchedule,getString(R.string.notification_title),scheduleEt.getText().toString());
+                if(!checkedOld && !active){
+                    new AlertDialog.Builder(getContext())
+                            .setTitle(getString(R.string.scheduled_title_save))
+                            .setMessage(getString(R.string.scheduled_text_save))
+                            .setPositiveButton(getString(R.string.accept), new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    updateAlarmState(active);
+                                    dismiss();
+                                    Toast.makeText(getActivity(), getString(R.string.toast_text), Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .setIcon(R.drawable.ic_warning)
+                            .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {}
+                            })
+                            .setCancelable(false)
+                            .show();
                 }else{
-                    NotificationScheduler.cancelReminder(getContext(),AlarmReceiver.class,(int)scheduledInfo.getNfc().getNotificacion());
+                    updateAlarmState(active);
+                    dismiss();
+                    Toast.makeText(getActivity(), getString(R.string.toast_text), Toast.LENGTH_SHORT).show();
                 }
-
-                dismiss();
             }
         });
         return mView;
+    }
+
+    private void updateAlarmState(boolean active) {
+        //Obtain DATE
+        Date date = new Date();
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        String today = formatter.format(date);
+        //Obtain HOUR
+        String hour = scheduleTvHour.getText().toString();
+        //Obtain TEXT
+        String text = scheduleEt.getText().toString();
+        //Obtain TYPE
+        int type = schedule_spinner_type.getSelectedItemPosition();
+
+        //Update bean
+        scheduledInfo.getNfc().setHora(hour);
+        scheduledInfo.getNfc().setTexto(text);
+        scheduledInfo.getNfc().setTipo(type);
+
+        //update BBDD
+        NotifForConsultDB nfcDB = new NotifForConsultDB(getContext());
+        nfcDB.open();
+        nfcDB.updateNotificacionParaConsulta(scheduledInfo.getNfc().getId(),scheduledInfo.getNfc().getConsulta(),
+                scheduledInfo.getNfc().getNotificacion(),today,hour,text,active,type);
+        nfcDB.close();
+
+        if(scheduleSwitch.isChecked()){
+            NotificationScheduler.setReminder(getContext(), AlarmReceiver.class,(int)scheduledInfo.getNfc().getNotificacion(), hourSchedule, minSchedule,getString(R.string.notification_title),scheduleEt.getText().toString());
+        }else{
+            NotificationScheduler.cancelReminder(getContext(),AlarmReceiver.class,(int)scheduledInfo.getNfc().getNotificacion());
+        }
     }
 
     private void drawComponentsByType(int position) {
@@ -254,7 +280,15 @@ public class FragmentScheduleNotification extends DialogFragment {
                     public void onTimeSet(TimePicker timePicker, int hour, int min) {
                         hourSchedule = hour;
                         minSchedule = min;
-                        scheduleTvHour.setText(hour+":"+min);
+                        String h = ""+hour;
+                        String m = ""+min;
+                        if(h.length()==1){
+                            h="0"+h;
+                        }
+                        if(m.length()==1){
+                            m="0"+m;
+                        }
+                        scheduleTvHour.setText(h+":"+m);
                     }
                 }, h, m, true);
 

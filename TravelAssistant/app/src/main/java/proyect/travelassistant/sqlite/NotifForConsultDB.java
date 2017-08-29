@@ -99,4 +99,13 @@ public class NotifForConsultDB {
         c.moveToFirst();
         return cursorToNotificacionParaConsulta(c);
     }
+
+    public NotifForConsult getNotificacionParaNotificacionId(long idNotificacion) {
+        String cond = "" + DatabaseHelper.getKeyIdNotif() + "=?";
+        String[] args = new String[] { String.valueOf(idNotificacion) };
+        Cursor c = database.query(DatabaseHelper.getDatabaseTableNotifsForQuerys(), allCols,
+                cond, args, null, null, null);
+        c.moveToFirst();
+        return cursorToNotificacionParaConsulta(c);
+    }
 }

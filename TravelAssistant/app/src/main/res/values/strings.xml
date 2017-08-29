@@ -189,7 +189,7 @@
     <string name="contact_phone">+34916879087</string>
 
     <!-- SCHEDULED NOTIFICATION -->
-    <string name="scheduled_switch">Activo</string>
+    <string name="scheduled_switch">Estado (Activa/Desactiva)</string>
     <string name="scheduled_hour">Hora</string>
     <string name="scheduled_hour_default">12:00</string>
     <string name="scheduled_type">Tipo de mensaje:</string>
@@ -199,6 +199,11 @@
     <string name="scheduled_type_recom_desc_1">Recuerde llevar</string>
     <string name="scheduled_type_recom_desc_2">en su viaje a </string>
     <string name="notification_title">Recordatorio Travel Assistant</string>
+    <string name="go_consult">Ir a consulta</string>
+    <string name="close_dialog">Cerrar</string>
+    <string name="scheduled_title_save">No has activado la alerta</string>
+    <string name="scheduled_text_save">Los cambios se guardarán pero no recibiar ningún aviso.</string>
+    <string name="toast_text">Alarma guardada</string>
     <!-- BBDD -->
     <string name="rec_bbdd_00">Recomendación estándar</string>
     <string name="rec_bbdd_01">Recomendación por viaje de 1 a 3 días de duración</string>
@@ -260,8 +265,5 @@
     <string name="rec_bbdd_12_r01">Billete</string>
     <string name="rec_bbdd_12_r02">Candado para el equipaje</string>
     <string name="rec_bbdd_12_r03">Etiquetas para las maletas</string>
-
-    <!-- TODO: Remove or change this placeholder texto -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

@@ -106,6 +106,7 @@ public class AddRecomActivity extends BaseActivity {
                                 }
                             })
                             .setNegativeButton(getString(R.string.cancel),null)
+                            .setCancelable(false)
                             .show();
                 }else{
                     new AlertDialog.Builder(activity)

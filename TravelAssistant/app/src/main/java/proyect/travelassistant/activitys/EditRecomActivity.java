@@ -125,6 +125,7 @@ public class EditRecomActivity extends BaseActivity {
                                 }
                             })
                             .setNegativeButton(getString(R.string.cancel),null)
+                            .setCancelable(false)
                             .show();
                 }else{
                     new AlertDialog.Builder(activity)
@@ -165,6 +166,7 @@ public class EditRecomActivity extends BaseActivity {
                         })
                         .setIcon(R.drawable.ic_warning)
                         .setNegativeButton(getString(R.string.cancel),null)
+                        .setCancelable(false)
                         .show();
             }
         });
