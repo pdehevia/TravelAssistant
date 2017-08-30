@@ -74,8 +74,6 @@ public class FragmentIntro  extends Fragment {
     private DatabaseReference mDatabaseAdvices;
     private DatabaseReference mDatabasCities;
 
-    public int idItem;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_intro, container, false);
@@ -218,10 +216,10 @@ public class FragmentIntro  extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(idItem!=-1){
+        if(AuxiliarData.getSingletonInstance().getItemId()!=-1){
             NotifForConsultDB nfcDB= new NotifForConsultDB(getContext());
             nfcDB.open();
-            NotifForConsult nfc = nfcDB.getNotificacionParaNotificacionId(idItem);
+            NotifForConsult nfc = nfcDB.getNotificacionParaNotificacionId(AuxiliarData.getSingletonInstance().getItemId());
             nfcDB.close();
             if(nfc!=null){
                 new AlertDialog.Builder(getContext())
@@ -230,7 +228,6 @@ public class FragmentIntro  extends Fragment {
                         .setPositiveButton(getString(R.string.go_consult), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent intent = new Intent(getActivity(), HistoricalActivity.class);
-                                intent.putExtra("NotifID",idItem);
                                 startActivity(intent);
                                 getActivity().finish();
                             }
@@ -239,6 +236,7 @@ public class FragmentIntro  extends Fragment {
                         .setNegativeButton(getString(R.string.close_dialog), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {}
                         })
+                        .setCancelable(false)
                         .show();
             }
         }

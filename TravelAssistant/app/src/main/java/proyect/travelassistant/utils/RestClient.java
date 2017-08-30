@@ -48,8 +48,6 @@ public class RestClient {
         URL url = new URL(urlServicio);
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
         httpURLConnection.setRequestProperty("Accept", "application/json");
-        httpURLConnection.setRequestProperty("Content-Type", "application/json;charset=utf-8");
-        httpURLConnection.setRequestProperty("Accept-Charset", "ISO-8859-1");
         httpURLConnection.setConnectTimeout(30000);
         httpURLConnection.setReadTimeout(30000);
         httpURLConnection.setUseCaches(false);

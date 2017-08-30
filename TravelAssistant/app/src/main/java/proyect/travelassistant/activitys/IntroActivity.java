@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 
 import proyect.travelassistant.R;
+import proyect.travelassistant.beans.AuxiliarData;
 import proyect.travelassistant.fragments.FragmentIntro;
 
 public class IntroActivity extends BaseActivity {
@@ -17,9 +18,9 @@ public class IntroActivity extends BaseActivity {
 
         Intent intent = getIntent();
         int idItem = intent.getIntExtra("NotifID",-1);
+        AuxiliarData.getSingletonInstance().setItemId(idItem);
 
         FragmentIntro mFragment = new FragmentIntro();
-        mFragment.idItem = idItem;
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.intro_container, mFragment, "fragment_intro");
         ft.addToBackStack(null).commit();

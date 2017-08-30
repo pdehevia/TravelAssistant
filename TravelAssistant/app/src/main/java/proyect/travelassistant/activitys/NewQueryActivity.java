@@ -69,6 +69,7 @@ public class NewQueryActivity extends BaseActivity implements OnMapReadyCallback
     private String critAnt4;
     private String destAnt;
     private Response response;
+    private int calls;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,6 +142,7 @@ public class NewQueryActivity extends BaseActivity implements OnMapReadyCallback
                                 !critAnt3.equals(String.valueOf(spinner3.getSelectedItem())) ||
                                 !critAnt4.equals(String.valueOf(spinner4.getSelectedItem())) ||
                                 !destAnt.equals(searchText.getText().toString())){
+                            calls = 0;
                             new CargarTiempoTask().execute();
                         }else{
                             Intent i = new Intent(activity, ResultActivity.class);
@@ -366,14 +368,19 @@ public class NewQueryActivity extends BaseActivity implements OnMapReadyCallback
                                 .show();
                     }
                 }else{
-                    //ERROR
-                    new AlertDialog.Builder(activity)
-                            .setTitle(getString(R.string.title_error_service))
-                            .setMessage(getString(R.string.text_error_service))
-                            .setPositiveButton(getString(R.string.accept), new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {}
-                            })
-                            .show();
+                    if(calls>2){
+                        //ERROR
+                        new AlertDialog.Builder(activity)
+                                .setTitle(getString(R.string.title_error_service))
+                                .setMessage(getString(R.string.text_error_service))
+                                .setPositiveButton(getString(R.string.accept), new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {}
+                                })
+                                .show();
+                    }else{
+                        calls++;
+                        new CargarTiempoTask().execute();
+                    }
                 }
             } catch (Exception e) {
                 Log.e("onPostExecute ERROR",""+e);

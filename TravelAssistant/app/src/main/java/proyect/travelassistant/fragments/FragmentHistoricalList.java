@@ -12,12 +12,12 @@ import android.widget.AdapterView;
 import proyect.travelassistant.R;
 import proyect.travelassistant.activitys.HistoricalActivity;
 import proyect.travelassistant.adapters.RecyclerAdapterHistorial;
+import proyect.travelassistant.beans.AuxiliarData;
 
 public class FragmentHistoricalList extends Fragment implements AdapterView.OnItemClickListener {
 
     private View view;
     private HistoricalActivity ha;
-    public int selectItem;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,7 +55,9 @@ public class FragmentHistoricalList extends Fragment implements AdapterView.OnIt
     public void onResume(){
         super.onResume();
 
-        if(selectItem!=-1){
+        if(AuxiliarData.getSingletonInstance().getItemId()!=-1){
+            int selectItem = AuxiliarData.getSingletonInstance().getItemId();
+            AuxiliarData.getSingletonInstance().setItemId(-1);
             for(int i=0;i<ha.consults.size();i++){
                 if(ha.consults.get(i).getId()==(selectItem-100)){
                     goToSelect(i);

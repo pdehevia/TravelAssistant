@@ -15,6 +15,7 @@ public class AuxiliarData {
 
     private List<OpenWeatherResponseBean> itemsCarrousel = new ArrayList<>();
     private ScheduledInfoBean scheduledInfo = new ScheduledInfoBean();
+    private int itemId;
 
     public AuxiliarData (){
 
@@ -41,5 +42,13 @@ public class AuxiliarData {
 
     public void setScheduledInfo(ScheduledInfoBean scheduledInfo) {
         this.scheduledInfo = scheduledInfo;
+    }
+
+    public int getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
     }
 }
