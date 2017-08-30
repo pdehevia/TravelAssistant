@@ -87,10 +87,16 @@
     Para que la aplicación pueda aconsejarle de forma precisa, es necesario que introduzca una serie de parámetros, tales como la duración o el motivo del viaje.\n\n
     Esta información no se comparte con ninguna empresa o entidad externa, y su única finalidad es aportarle recomendaciones más efectivas.\n\n
     Si la búsqueda ha tenido éxito podrá observar un listado con las recomendaciones para su viaje en función de los parámetros especificados.\n\n
-    Además podrá consultar la información detalla sobre el clima en los días de su viaje, así como un histórico del clima por meses para la localización seleccionada.</string>
+    Además, podrá consultar la información detalla sobre el clima en los días de su viaje, así como un histórico del clima por meses para la localización seleccionada.</string>
+    <string name="use_app_expl_1_2">Y si lo no necesitas, puedes activar una notificación referente a tu búsqueda para que recuerdes lo que necesites.
+    Solo has de buscar el icono de notificaciones y rellenar los campos correspondientes.</string>
     <string name="use_app_expl_2">Con la sección \"VER HISTORIAL DE CONSULTAS\" podrás consultar resultados de búsquedas anteriores.\n\n
-    Puesto que la información meteorológica es cambiante, en el historial simplemente verá un resumen de la información que se obtuvo en el momento de la búsqueda, haciendo especial hincapié en su lista de recomendaciones.\n\n
-    Cualquier elemento que marque en la lista será almacenado como "Realizado", para que pueda hacer un seguimiento de lo que tiene y de lo que le falta por incluir en su equipaje.\n\n
+    Puesto que la información meteorológica es cambiante, en el historial simplemente verá un resumen de la información que se obtuvo en el momento de la búsqueda, haciendo especial hincapié en su lista de recomendaciones.</string>
+    <string name="use_app_expl_2_2">Por ese motivo, si lo necesitas puedes actualizar tu consulta pulsando en el botón de "refrescar consulta"</string>
+    <string name="use_app_expl_2_3">Al igual que en la sección \"NUEVA CONSULTA\", puedes activar/editar las notificaciones cuando lo desees.\n\n
+    Solo puedes activar una notificación por consulta, aunque si lo deseas puedes personalizarlas para no olvidar nada.\n\n
+    Por otro lado, la aplicación si acepta notificaciones simultáneas si son de consultas diferentes.</string>
+    <string name="use_app_expl_2_4">Cualquier elemento que marque en la lista será almacenado como "Realizado", para que pueda hacer un seguimiento de lo que tiene y de lo que le falta por incluir en su equipaje.\n\n
     Para que la aplicación no ocupe demasiado espacio en su dispositivo, se almacenarán un máximo de 10 búsquedas. Si se alcanza esa cifra, cuando se realice una nueva consulta, se borrará la búsqueda almacenada más antigua. \n\n
     Si usted lo desea puede borrar sus búsquedas guardadas manualmente.</string>
     <string name="use_app_expl_3">Con la sección \"EDITAR RECOMENDACIONES\" puedes crear tus propias recomendaciones  o modificar las ya existentes para que la app las incluya en sus resultados.</string>
