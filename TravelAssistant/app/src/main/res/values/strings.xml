@@ -80,7 +80,7 @@
     <!-- HELP SCREEN -->
     <string name="use_app_title">¿Cómo usar esta App?</string>
     <string name="use_app_text">TravelAssistan busca información sobre el clima de su destino vacacacional, y en función de los resultados y de su tipo de viaje, le ofrece recomendaciones para que no olvide nada en su maleta.\n\n
-    La experiencia es personalizable, de forma que las recomendaciones que la aplicación le ofrece. se adaptaran exáctamente a lo que necesite.\n\n
+    La experiencia es personalizable, de forma que las recomendaciones que la aplicación le ofrece se adaptaran exáctamente a lo que necesite.\n\n
     Su uso es fácil e intuitivo, pero si tiene alguna duda no dude en contactar con el equipo de desarrollo de Travel Assitant.</string>
     Para que el funcionamiento de la aplicación sea óptimo es necesario tener conexión a internet.
     <string name="use_app_expl_1">Con la sección \"NUEVA CONSULTA\" podrás obtener nuevas recomendaciones.\n\n
@@ -99,8 +99,10 @@
     <string name="use_app_expl_2_4">Cualquier elemento que marque en la lista será almacenado como "Realizado", para que pueda hacer un seguimiento de lo que tiene y de lo que le falta por incluir en su equipaje.\n\n
     Para que la aplicación no ocupe demasiado espacio en su dispositivo, se almacenarán un máximo de 10 búsquedas. Si se alcanza esa cifra, cuando se realice una nueva consulta, se borrará la búsqueda almacenada más antigua. \n\n
     Si usted lo desea puede borrar sus búsquedas guardadas manualmente.</string>
-    <string name="use_app_expl_3">Con la sección \"EDITAR RECOMENDACIONES\" puedes crear tus propias recomendaciones  o modificar las ya existentes para que la app las incluya en sus resultados.</string>
-    <string name="use_app_expl_4">Con la sección \"RESTAURAR RECOMENDACIONES\" retornarás la aplicación a su estado inicial.\n\n
+    <string name="use_app_expl_3">Con la sección \"EDITAR RECOMENDACIONES\" puedes crear tus propias recomendaciones  o modificar las ya existentes para que la app las incluya en sus resultados.\n\n
+    Si deseas modificar una recomendación solo has de pinchar sobre ella y modificar el campo deseado.\n\n
+    Si deseas añadir una nueva, debes pulsar sobre el icono de "Añadir" de la parte superior de la pantalla.</string>
+    <string name="use_app_expl_4">Con la sección \"RESTAURAR RECOMENDACIONES\" retornarás la aplicación a su estado inicial,restaurando todas las recomendaciones por defecto.\n\n
         *IMPORTANTE:Se eliminarán todas las recomendaciones personalizadas y el historial de consultas.</string>
     <string name="use_app_expl_weather">Toda la información climatológica es ofrecida por http://www.worldweatheronline.com y https://openweathermap.org</string>
     <string name="use_app_expl_help">Si desea realizar cualquier comentario acerca del funcionamiento de la APP, acceda a la sección \"CONTACTO\".</string>
