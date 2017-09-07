@@ -1,6 +1,6 @@
 <resources>
     <!-- http://www.worldweatheronline.com -->
-    <string name="key">03d3859c366c45e9aa0173242171707</string>
+    <string name="key">ee4b0098e53d429d8c2174138170709</string>
 
     <!-- https://openweathermap.org/ -->
     <string name="appid">9c0780d686918b84c38573f287a650ad</string>
@@ -193,7 +193,7 @@
 
     <!-- CONTACT -->
     <string name="contact_title">Si ha detectado alguna incidencia o comportamiento erróneo en la aplicación no dude en contactar con nosotros.</string>
-    <string name="contact_mail">travelassistant.support@gmail.com</string>
+    <string name="contact_mail">travelassistantapp@gmail.com</string>
     <string name="contact_phone">+34916879087</string>
 
     <!-- SCHEDULED NOTIFICATION -->
