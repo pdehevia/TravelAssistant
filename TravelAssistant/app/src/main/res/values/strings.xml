@@ -6,6 +6,9 @@
     <string name="appid">9c0780d686918b84c38573f287a650ad</string>
     <string name="urlIcon">http://openweathermap.org/img/w/</string>
 
+    <!-- Geocoder Google Maps -->
+    <string name="keyGoogle">AIzaSyCfenX_8jV7pWtF8Hoyn46nlBmav3wG1ug</string>
+
     <string name="app_name">Travel Assistant</string>
     <string name="navigation_drawer_open">Abrir navigation drawer</string>
     <string name="navigation_drawer_close">Cerrar navigation drawer</string>
@@ -45,6 +48,7 @@
     <string name="reset">Reintentar</string>
     <string name="title_error_service">Error</string>
     <string name="text_error_service">"En servicio climatológico no está disponible, por favor inténtelo más tarde."</string>
+    <string name="text_error_geocode">"En servicio de geolocalización no está disponible, por favor inténtelo más tarde."</string>
 
     <string name="title_error_red">Error de red</string>
     <string name="text_error_red">"No hay acceso a internet. Esta operativa no está disponible."</string>

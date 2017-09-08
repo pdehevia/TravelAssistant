@@ -12,7 +12,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -41,6 +40,9 @@ import java.util.List;
 import java.util.Locale;
 
 import proyect.travelassistant.R;
+import proyect.travelassistant.beans.geocoder.AddressComponents;
+import proyect.travelassistant.beans.geocoder.ResponseGeocode;
+import proyect.travelassistant.beans.geocoder.Result;
 import proyect.travelassistant.beans.worldweather.Response;
 import proyect.travelassistant.utils.RestClient;
 
@@ -70,6 +72,9 @@ public class NewQueryActivity extends BaseActivity implements OnMapReadyCallback
     private String destAnt;
     private Response response;
     private int calls;
+
+    private double lat;
+    private double lon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -189,37 +194,47 @@ public class NewQueryActivity extends BaseActivity implements OnMapReadyCallback
         if(comprobarRed()){
             String searchFor = searchText.getText().toString();
             if(searchFor.length()>0){
-                try {
-                    List<Address> addresses =
-                            geoCoder.getFromLocationName(searchFor, 5);
-                    if (addresses.size() > 0) {
-                        hideKeyboard(this);
-                        if(posicion!=null) {
-                            posicion.remove();
-                        }
-                        posicion = mapa.addMarker(new MarkerOptions()
-                                .position(new LatLng(addresses.get(0).getLatitude(), addresses.get(0).getLongitude()))
-                                .title(searchFor)
-                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
 
-                        coordenadas = new LatLng(addresses.get(0).getLatitude(), addresses.get(0).getLongitude());
-                        mapa.animateCamera(CameraUpdateFactory.newLatLngZoom(coordenadas, 12));
+                if(1==2){
+                //if(geoCoder.isPresent()){
+                    try {
+                        List<Address> addresses =
+                                geoCoder.getFromLocationName(searchFor, 5);
+                        if (addresses.size() > 0) {
 
-                        String direccion = addresses.get(0).getLocality();
-                        if(direccion!= null && direccion.length()>0){
-                            searchText.setText(direccion);
-                        }else{
-                            direccion = addresses.get(0).getSubAdminArea();
+                            hideKeyboard(this);
+                            if(posicion!=null) {
+                                posicion.remove();
+                            }
+                            posicion = mapa.addMarker(new MarkerOptions()
+                                    .position(new LatLng(addresses.get(0).getLatitude(), addresses.get(0).getLongitude()))
+                                    .title(searchFor)
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+
+                            coordenadas = new LatLng(addresses.get(0).getLatitude(), addresses.get(0).getLongitude());
+                            mapa.animateCamera(CameraUpdateFactory.newLatLngZoom(coordenadas, 12));
+
+                            String direccion = addresses.get(0).getLocality();
                             if(direccion!= null && direccion.length()>0){
                                 searchText.setText(direccion);
                             }else{
-                                //searchText.setTexto("");
+                                direccion = addresses.get(0).getSubAdminArea();
+                                if(direccion!= null && direccion.length()>0){
+                                    searchText.setText(direccion);
+                                }else{
+                                    //searchText.setTexto("");
+                                }
                             }
                         }
+                    } catch (IOException e) {
+                        Log.e("MAP ERROR",""+e);
                     }
-                } catch (IOException e) {
-                    Log.e("MAP ERROR",""+e);
+                }else{
+                    //PLAN B
+                    new LaunchGeocode().execute(searchFor);
                 }
+
+
             }
 
         }
@@ -267,31 +282,39 @@ public class NewQueryActivity extends BaseActivity implements OnMapReadyCallback
         }
 
         if(comprobarRed()){
-            try {
-                List<Address> addresses = geoCoder.getFromLocation(latLng.latitude,latLng.longitude,1);
+            if(1==2){
+            //if(geoCoder.isPresent()){
+                try {
+                    List<Address> addresses = geoCoder.getFromLocation(latLng.latitude,latLng.longitude,1);
 
-                if(addresses.size()>0){
-                    posicion = mapa.addMarker(new MarkerOptions()
-                            .position(new LatLng(latLng.latitude, latLng.longitude))
-                            .title(addresses.get(0).getLocality())
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+                    if(addresses.size()>0){
+                        posicion = mapa.addMarker(new MarkerOptions()
+                                .position(latLng)
+                                .title(addresses.get(0).getLocality())
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
 
-                    coordenadas = latLng;
-                    String direccion = addresses.get(0).getLocality();
-                    if(direccion!= null && direccion.length()>0){
-                        searchText.setText(direccion);
-                    }else{
-                        direccion = addresses.get(0).getSubAdminArea();
+                        coordenadas = latLng;
+                        String direccion = addresses.get(0).getLocality();
                         if(direccion!= null && direccion.length()>0){
                             searchText.setText(direccion);
                         }else{
-                            //searchText.setTexto("");
+                            direccion = addresses.get(0).getSubAdminArea();
+                            if(direccion!= null && direccion.length()>0){
+                                searchText.setText(direccion);
+                            }else{
+                                //searchText.setTexto("");
+                            }
                         }
+                        mapa.animateCamera(CameraUpdateFactory.newLatLngZoom(coordenadas, 12));
                     }
-                    mapa.animateCamera(CameraUpdateFactory.newLatLngZoom(coordenadas, 12));
+                } catch (IOException e) {
+                    Log.e("MAP ERROR",""+e);
                 }
-            } catch (IOException e) {
-                Log.e("MAP ERROR",""+e);
+            }else{
+                //PLAN B
+                lat = latLng.latitude;
+                lon =latLng.longitude;
+                new LaunchGeocodeInverse().execute();
             }
         }
     }
@@ -435,5 +458,174 @@ public class NewQueryActivity extends BaseActivity implements OnMapReadyCallback
     public void onBackPressed() {
         startActivity(new Intent(NewQueryActivity.this, IntroActivity.class));
         finish();
+    }
+
+    private class LaunchGeocode extends AsyncTask<String, Void, String> {
+        private ProgressDialog progressDialog;
+        private String dir;
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog = getCustomProgressDialog(activity, getString(R.string.loading));
+            progressDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            dir = params[0];
+            String url = " https://maps.googleapis.com/maps/api/geocode/json?address="+dir+"&language=es&components=locality&key="+getResources().getString(R.string.keyGoogle);
+            try {
+                String responseString =  RestClient.getJsonResponse(url);
+                return responseString;
+            } catch (Exception e) {
+                Log.e("SERVICE ERROR",""+e);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            if (progressDialog != null) {
+                progressDialog.dismiss();
+            }
+
+            try {
+                if(result!=null && result!=" " && result!=""){
+                    ResponseGeocode response = new Gson().fromJson(result, ResponseGeocode.class);
+                    if(response!=null && response.getStatus().equals("OK")){
+
+                        Result resultGeocoder = response.getResults().get(0);
+                        hideKeyboard(activity);
+                        if(posicion!=null) {
+                            posicion.remove();
+                        }
+                        posicion = mapa.addMarker(new MarkerOptions()
+                                .position(new LatLng(resultGeocoder.getGeometry().getLocation().getLat(), resultGeocoder.getGeometry().getLocation().getLng()))
+                                .title(dir)
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+
+                        coordenadas = new LatLng(resultGeocoder.getGeometry().getLocation().getLat(), resultGeocoder.getGeometry().getLocation().getLng());
+                        mapa.animateCamera(CameraUpdateFactory.newLatLngZoom(coordenadas, 12));
+
+                        String direccion = "";
+                        for(AddressComponents ac : resultGeocoder.getAddress_components()){
+                            for(String typeString : ac.getTypes()){
+                                if(typeString.equals("locality")){
+                                    direccion = ac.getLong_name();
+                                    break;
+                                }
+                            }
+                        }
+
+                        if(direccion!= null && direccion.length()>0){
+                            searchText.setText(direccion);
+                        }
+                    }else{
+                        //ERROR
+                        new AlertDialog.Builder(activity)
+                                .setTitle(getString(R.string.title_error_service))
+                                .setMessage(getString(R.string.text_error_geocode))
+                                .setPositiveButton(getString(R.string.accept), new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {}
+                                })
+                                .show();
+                        if (progressDialog != null) {
+                            progressDialog.dismiss();
+                        }
+
+                    }
+                }else{
+                    //ERROR
+                    new AlertDialog.Builder(activity)
+                            .setTitle(getString(R.string.title_error_service))
+                            .setMessage(getString(R.string.text_error_geocode))
+                            .setPositiveButton(getString(R.string.accept), new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {}
+                            })
+                            .show();
+                    if (progressDialog != null) {
+                        progressDialog.dismiss();
+                    }
+                }
+            } catch (Exception e) {
+                Log.e("onPostExecute ERROR",""+e);
+            }
+        }
+    }
+
+    private class LaunchGeocodeInverse extends AsyncTask<Void, Void, String> {
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String url = "  https://maps.googleapis.com/maps/api/geocode/json?latlng="+lat+","+lon+"&language=es&location_type=APPROXIMATE&result_type=political|locality|administrative_area_level_3&key="+getResources().getString(R.string.keyGoogle);
+            try {
+                String responseString =  RestClient.getJsonResponse(url);
+                return responseString;
+            } catch (Exception e) {
+                Log.e("SERVICE ERROR",""+e);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            try {
+                if(result!=null && result!=" "){
+                    ResponseGeocode response = new Gson().fromJson(result, ResponseGeocode.class);
+                    if(response!=null && response.getStatus().equals("OK")){
+                        Result resultGeocoder = response.getResults().get(0);
+
+                        String direccion = "";
+                        for(AddressComponents ac : resultGeocoder.getAddress_components()){
+                            for(String typeString : ac.getTypes()){
+                                if(typeString.equals("locality")){
+                                    direccion = ac.getLong_name();
+                                    break;
+                                }
+                            }
+                        }
+                        if(direccion==null || direccion.length()==0){
+                            direccion = resultGeocoder.getAddress_components().get(0).getLong_name();
+                        }
+
+                        posicion = mapa.addMarker(new MarkerOptions()
+                                .position(new LatLng(lat, lon))
+                                .title(direccion)
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+
+                        coordenadas = new LatLng(lat, lon);
+
+                        if(direccion!= null && direccion.length()>0){
+                            searchText.setText(direccion);
+                        }
+                        mapa.animateCamera(CameraUpdateFactory.newLatLngZoom(coordenadas, 12));
+
+                    }else{
+                        //ERROR
+                        new AlertDialog.Builder(activity)
+                                .setTitle(getString(R.string.title_error_service))
+                                .setMessage(getString(R.string.text_error_geocode))
+                                .setPositiveButton(getString(R.string.accept), new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {}
+                                })
+                                .show();
+                    }
+                }else{
+                    //ERROR
+                    new AlertDialog.Builder(activity)
+                            .setTitle(getString(R.string.title_error_service))
+                            .setMessage(getString(R.string.text_error_geocode))
+                            .setPositiveButton(getString(R.string.accept), new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {}
+                            })
+                            .show();
+                }
+            } catch (Exception e) {
+                Log.e("onPostExecute ERROR",""+e);
+            }
+        }
     }
 }
