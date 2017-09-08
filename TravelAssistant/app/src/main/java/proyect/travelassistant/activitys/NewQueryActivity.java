@@ -194,9 +194,7 @@ public class NewQueryActivity extends BaseActivity implements OnMapReadyCallback
         if(comprobarRed()){
             String searchFor = searchText.getText().toString();
             if(searchFor.length()>0){
-
-                if(1==2){
-                //if(geoCoder.isPresent()){
+                if(geoCoder.isPresent()){
                     try {
                         List<Address> addresses =
                                 geoCoder.getFromLocationName(searchFor, 5);
@@ -282,8 +280,7 @@ public class NewQueryActivity extends BaseActivity implements OnMapReadyCallback
         }
 
         if(comprobarRed()){
-            if(1==2){
-            //if(geoCoder.isPresent()){
+            if(geoCoder.isPresent()){
                 try {
                     List<Address> addresses = geoCoder.getFromLocation(latLng.latitude,latLng.longitude,1);
 
