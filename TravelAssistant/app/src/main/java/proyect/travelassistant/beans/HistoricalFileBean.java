@@ -10,14 +10,16 @@ public class HistoricalFileBean {
     private Long idRow;
     private Recom recom;
     private boolean done;
+    private boolean visible;
 
     public HistoricalFileBean() {
     }
 
-    public HistoricalFileBean(Long idRow, Recom recom, boolean done) {
+    public HistoricalFileBean(Long idRow, Recom recom, boolean done, boolean visible) {
         this.idRow = idRow;
         this.recom = recom;
         this.done = done;
+        this.visible = visible;
     }
 
     public Long getIdRow() {
@@ -42,5 +44,13 @@ public class HistoricalFileBean {
 
     public void setDone(boolean done) {
         this.done = done;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 }

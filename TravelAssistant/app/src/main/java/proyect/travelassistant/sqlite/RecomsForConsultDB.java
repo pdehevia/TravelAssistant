@@ -19,7 +19,8 @@ public class RecomsForConsultDB {
     private DatabaseHelper dbHelper;
     private SQLiteDatabase database;
     private String[] allCols = { DatabaseHelper.getKeyId(), DatabaseHelper.getKeyIdRecom(),
-                                 DatabaseHelper.getKeyIdConsult(), DatabaseHelper.getKeyDone()};
+                                 DatabaseHelper.getKeyIdConsult(), DatabaseHelper.getKeyDone(),
+                                 DatabaseHelper.getKeyVisible()};
 
     public RecomsForConsultDB(Context context) {
         dbHelper = new DatabaseHelper(context);
@@ -34,7 +35,7 @@ public class RecomsForConsultDB {
     }
 
 
-    public long createRecomendacionParaConsulta(long idRecomendacion, long idConsulta, boolean done) {
+    public long createRecomendacionParaConsulta(long idRecomendacion, long idConsulta, boolean done, boolean visible) {
         ContentValues initialValues = new ContentValues();
         initialValues.put(DatabaseHelper.getKeyIdRecom(), idRecomendacion);
         initialValues.put(DatabaseHelper.getKeyIdConsult(), idConsulta);
@@ -42,6 +43,11 @@ public class RecomsForConsultDB {
             initialValues.put(DatabaseHelper.getKeyDone(), 1);
         }else{
             initialValues.put(DatabaseHelper.getKeyDone(), 0);
+        }
+        if(visible){
+            initialValues.put(DatabaseHelper.getKeyVisible(), 1);
+        }else{
+            initialValues.put(DatabaseHelper.getKeyVisible(), 0);
         }
         return database.insert(DatabaseHelper.getDatabaseTableRecomesForQuerys(), null, initialValues);
     }
@@ -51,7 +57,7 @@ public class RecomsForConsultDB {
                 DatabaseHelper.getKeyId() + "=" + rowId, null) > 0;
     }
 
-    public boolean updateRecomendacionParaConsulta(long rowId, long idRecomendacion, long idConsulta, boolean done) {
+    public boolean updateRecomendacionParaConsulta(long rowId, long idRecomendacion, long idConsulta, boolean done, boolean visible) {
         ContentValues args = new ContentValues();
         args.put(DatabaseHelper.getKeyIdRecom(), idRecomendacion);
         args.put(DatabaseHelper.getKeyIdConsult(), idConsulta);
@@ -60,7 +66,11 @@ public class RecomsForConsultDB {
         }else{
             args.put(DatabaseHelper.getKeyDone(), 0);
         }
-
+        if(visible){
+            args.put(DatabaseHelper.getKeyVisible(), 1);
+        }else{
+            args.put(DatabaseHelper.getKeyVisible(), 0);
+        }
         return database.update(DatabaseHelper.getDatabaseTableRecomesForQuerys(), args,
                 DatabaseHelper.getKeyId() + "=" + rowId, null) > 0;
     }
@@ -76,16 +86,16 @@ public class RecomsForConsultDB {
     }
 
     public List<RecomsForConsult> getRecomendacionParaConsulta() {
-        List<RecomsForConsult> notesId = new ArrayList<RecomsForConsult>();
+        List<RecomsForConsult> recomsId = new ArrayList<RecomsForConsult>();
         Cursor cursor = database.query(DatabaseHelper.getDatabaseTableRecomesForQuerys(),
                 allCols, null, null, null, null, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            notesId.add(cursorToRecomendacionParaConsulta(cursor));
+            recomsId.add(cursorToRecomendacionParaConsulta(cursor));
             cursor.moveToNext();
         }
         cursor.close();
-        return notesId;
+        return recomsId;
     }
 
     public Cursor getCursorRecomendacionParaConsulta() {
@@ -109,7 +119,9 @@ public class RecomsForConsultDB {
         c.setRecomendacion(Long.parseLong(cursor.getString(1)));
         c.setConsulta(Long.parseLong(cursor.getString(2)));
         int done = Integer.parseInt(cursor.getString(3));
+        int visible = Integer.parseInt(cursor.getString(4));
         c.setDone(done == 1);
+        c.setVisible(visible == 1);
         return c;
     }
 

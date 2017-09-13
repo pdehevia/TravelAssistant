@@ -9,15 +9,17 @@ public class RecomsForConsult {
     private long recomendacion;
     private long consulta;
     private boolean done;
+    private boolean visible;
 
     public RecomsForConsult() {
     }
 
-    public RecomsForConsult(long id, long recomendacion, long consulta, boolean done) {
+    public RecomsForConsult(long id, long recomendacion, long consulta, boolean done, boolean visible) {
         this.id = id;
         this.recomendacion = recomendacion;
         this.consulta = consulta;
         this.done = done;
+        this.visible = visible;
     }
 
     public long getId() {
@@ -50,5 +52,13 @@ public class RecomsForConsult {
 
     public void setDone(boolean done) {
         this.done = done;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 }

@@ -246,7 +246,9 @@ public class FragmentHistoricalResult extends Fragment {
                 hfb.setIdRow(cursor.getLong(0));
                 hfb.setRecom(recomsDB.getRecomendacionForId(cursor.getLong(1)));
                 int done = cursor.getInt(3);
+                int visible = cursor.getInt(4);
                 hfb.setDone(done==1);
+                hfb.setVisible(visible==1);
                 files.add(hfb);
             }
             cursor.close();
@@ -387,7 +389,7 @@ public class FragmentHistoricalResult extends Fragment {
                         Long idRecom = (Long) checkBox.getTag();
                         if(idRecom!=null && hfb.getIdRow()!=null){
                             boolean check = checkBox.isChecked();
-                            recomsForConsultDB.updateRecomendacionParaConsulta(hfb.getIdRow(), idRecom,idConsulta,check);
+                            recomsForConsultDB.updateRecomendacionParaConsulta(hfb.getIdRow(),idConsulta,idRecom,false,false);
                         }
                         recomsForConsultDB.close();
                     }
@@ -422,7 +424,18 @@ public class FragmentHistoricalResult extends Fragment {
                                         recomsForConsultDB.open();
                                         Long idRecom = (Long) imgBtn.getTag();
                                         if(idRecom!=null){
-                                            recomsForConsultDB.deleteRecomendacionParaConsultaConIdRecomendacion(idRecom);
+                                            int index = 0;
+                                            Long id;
+                                            for (int i=0;i<files.size();i++) {
+                                                final HistoricalFileBean hfb = files.get(i);
+                                                if(hfb.getRecom().getId() == idRecom){
+                                                    index = i;
+                                                    id = hfb.getIdRow();
+                                                    recomsForConsultDB.updateRecomendacionParaConsulta(id, idRecom,idConsulta,false,false);
+                                                    break;
+                                                }
+                                            }
+                                            files.remove(index);
                                             fila.setVisibility(View.GONE);
                                         }
                                         recomsForConsultDB.close();
@@ -436,7 +449,9 @@ public class FragmentHistoricalResult extends Fragment {
                 });
                 rightColumn.addView(imgBtn);
 
-                ll.addView(fila);
+                if(hfb.isVisible()){
+                    ll.addView(fila);
+                }
             }
             criteryDB.close();
         }

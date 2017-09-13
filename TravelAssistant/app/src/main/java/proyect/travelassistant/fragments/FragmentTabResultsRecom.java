@@ -57,6 +57,7 @@ public class FragmentTabResultsRecom extends Fragment {
     private List<String> recomsDescriptions = new ArrayList<>();
     private Map<Long,Long> recomsRowsExists = new HashMap<>();
     private Map<Long,Boolean> recomsCheckExists = new HashMap<>();
+    private Map<Long,Boolean> recomsVisibleExists = new HashMap<>();
     private List<Long>  drawRecomsExists = new ArrayList<>();
 
     @Override
@@ -78,6 +79,7 @@ public class FragmentTabResultsRecom extends Fragment {
         recomsRowsExists.clear();
         recomsCheckExists.clear();
         drawRecomsExists.clear();
+        recomsVisibleExists.clear();
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         String currentDateandTime = sdf.format(new Date());
@@ -410,11 +412,13 @@ public class FragmentTabResultsRecom extends Fragment {
                     final Long idRow = cursor.getLong(0);
                     Recom r = recomsDB.getRecomendacionForId(cursor.getLong(1));
                     int done = cursor.getInt(3);
+                    int visible = cursor.getInt(4);
                     if(!recomsExists.contains(r.getId())){
                         recomsExists.add(r.getId());
                     }
                     recomsRowsExists.put(r.getId(),idRow);
                     recomsCheckExists.put(r.getId(),done==1);
+                    recomsVisibleExists.put(r.getId(),visible==1);
                 }
                 cursor.close();
                 criteryDB.close();
@@ -543,7 +547,7 @@ public class FragmentTabResultsRecom extends Fragment {
                         if(ra.consultaExistente && recomsExists.contains(idRecom)){
                             idRow = recomsRowsExists.get(idRecom);
                         }else{
-                            idRow = recomsForConsultDB.createRecomendacionParaConsulta(idRecom,idConsulta,false);
+                            idRow = recomsForConsultDB.createRecomendacionParaConsulta(idRecom,idConsulta,false,true);
                         }
                         indexRow.put(idRecom,idRow);
                     }
@@ -578,7 +582,7 @@ public class FragmentTabResultsRecom extends Fragment {
                             if(idRecom!=null && idRow!=null){
                                 boolean check = checkBox.isChecked();
                                 checkBoxIndex.put(idRecom,check);
-                                recomsForConsultDB.updateRecomendacionParaConsulta(idRow, idRecom,idConsulta,check);
+                                recomsForConsultDB.updateRecomendacionParaConsulta(idRow, idRecom,idConsulta,check,true);
                             }
                             recomsForConsultDB.close();
 
@@ -586,7 +590,7 @@ public class FragmentTabResultsRecom extends Fragment {
                     });
                     leftColumn.addView(checkBox);
 
-                    TextView tvRecomen = new TextView(getContext());
+                    final TextView tvRecomen = new TextView(getContext());
                     tvRecomen.setText(cursorRecomen.getString(1));
                     recomsDescriptions.add(cursorRecomen.getString(1));
                     TextViewCompat.setTextAppearance(tvRecomen, R.style.Style_Recoms);
@@ -613,8 +617,10 @@ public class FragmentTabResultsRecom extends Fragment {
                                         public void onClick(DialogInterface dialog, int which) {
                                             RecomsForConsultDB recomsForConsultDB = new RecomsForConsultDB(getContext());
                                             recomsForConsultDB.open();
-                                            if(idRecom!=null){
-                                                recomsForConsultDB.deleteRecomendacionParaConsultaConIdRecomendacion(idRecom);
+                                            Long idRow = indexRow.get(idRecom);
+                                            if(idRecom!=null && idRow!=null){
+                                                recomsForConsultDB.updateRecomendacionParaConsulta(idRow, idRecom,idConsulta,false,false);
+                                                recomsDescriptions.remove(tvRecomen.getText());
                                                 fila.setVisibility(View.GONE);
                                             }
                                             recomsForConsultDB.close();
@@ -630,13 +636,16 @@ public class FragmentTabResultsRecom extends Fragment {
 
                     if(ra.consultaExistente){
                         drawRecomsExists.add(idRecom);
+                        boolean visible = recomsVisibleExists.get(idRecom);
+                        if(visible){
+                            ll.addView(fila);
+                        }
+                    }else{
+                        ll.addView(fila);
                     }
-
-                    ll.addView(fila);
                 }
             }
 
-            List<RecomsForConsult> recs = recomsForConsultDB.getRecomendacionParaConsulta();
             recomsForConsultDB.close();
 
             if(pintarLineaSep){
@@ -823,5 +832,4 @@ public class FragmentTabResultsRecom extends Fragment {
         tvkk.setText("");
         ll.addView(tvkk);
     }
-
 }

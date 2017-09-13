@@ -82,6 +82,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + KEY_ID_RECOM + " integer, "
             + KEY_ID_CONSULT + " integer, "
             + KEY_DONE + " integer, "
+            + KEY_VISIBLE + " integer, "
             + "FOREIGN KEY ("+ KEY_ID_RECOM +") REFERENCES " + DATABASE_TABLE_RECOMS + "("+KEY_ID+") , "
             + "FOREIGN KEY ("+ KEY_ID_CONSULT +") REFERENCES " + DATABASE_TABLE_QUERYS + "("+KEY_ID+")"
             + ");";
