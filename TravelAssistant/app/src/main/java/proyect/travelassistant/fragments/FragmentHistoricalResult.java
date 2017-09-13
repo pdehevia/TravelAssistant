@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -24,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -349,11 +351,30 @@ public class FragmentHistoricalResult extends Fragment {
                     ll.addView(linearTitulo);
                 }
 
-                LinearLayout fila = new LinearLayout(getContext());
+                final LinearLayout fila = new LinearLayout(getContext());
                 fila.setOrientation(LinearLayout.HORIZONTAL);
                 LinearLayout.LayoutParams paramsFila= new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 paramsFila.setMargins(10,0,0,5);
                 fila.setLayoutParams(paramsFila);
+                fila.setGravity(Gravity.CENTER);
+                fila.setWeightSum(10);
+
+                LinearLayout leftColumn = new LinearLayout((getContext()));
+                leftColumn.setOrientation(LinearLayout.HORIZONTAL);
+                LinearLayout.LayoutParams paramsLeftColumn= new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT,8);
+                leftColumn.setLayoutParams(paramsLeftColumn);
+                leftColumn.setGravity(Gravity.CENTER);
+
+                LinearLayout rightColumn = new LinearLayout((getContext()));
+                rightColumn.setOrientation(LinearLayout.HORIZONTAL);
+                LinearLayout.LayoutParams paramsRightColumn= new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT,2);
+                rightColumn.setLayoutParams(paramsRightColumn);
+                rightColumn.setGravity(Gravity.CENTER);
+
+                fila.addView(leftColumn);
+                fila.addView(rightColumn);
+
+
 
                 final CheckBox checkBox = new CheckBox(getContext());
                 checkBox.setTag(hfb.getRecom().getId());
@@ -372,7 +393,7 @@ public class FragmentHistoricalResult extends Fragment {
                     }
                 });
 
-                fila.addView(checkBox);
+                leftColumn.addView(checkBox);
 
                 TextView tvRecomen = new TextView(getContext());
                 tvRecomen.setText(hfb.getRecom().getDescripcion());
@@ -380,7 +401,40 @@ public class FragmentHistoricalResult extends Fragment {
                 LinearLayout.LayoutParams paramsAux = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 paramsAux.setMargins(10,0,0,5);
                 tvRecomen.setLayoutParams(paramsAux);
-                fila.addView(tvRecomen);
+
+                leftColumn.addView(tvRecomen);
+
+                final ImageButton imgBtn = new ImageButton(getContext());
+                imgBtn.setImageResource(R.drawable.delete_row);
+                imgBtn.setBackgroundColor(Color.TRANSPARENT);
+                LinearLayout.LayoutParams paramsBtn = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                imgBtn.setLayoutParams(paramsBtn);
+                imgBtn.setTag(hfb.getRecom().getId());
+                imgBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        new android.support.v7.app.AlertDialog.Builder(getContext())
+                                .setTitle(getString(R.string.title_alert_rec_result))
+                                .setMessage(getString(R.string.text_alert_delete_rec_result))
+                                .setPositiveButton(getString(R.string.accept), new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        RecomsForConsultDB recomsForConsultDB = new RecomsForConsultDB(getContext());
+                                        recomsForConsultDB.open();
+                                        Long idRecom = (Long) imgBtn.getTag();
+                                        if(idRecom!=null){
+                                            recomsForConsultDB.deleteRecomendacionParaConsultaConIdRecomendacion(idRecom);
+                                            fila.setVisibility(View.GONE);
+                                        }
+                                        recomsForConsultDB.close();
+                                    }
+                                })
+                                .setIcon(R.drawable.ic_warning)
+                                .setNegativeButton(getString(R.string.cancel), null)
+                                .setCancelable(false)
+                                .show();
+                    }
+                });
+                rightColumn.addView(imgBtn);
 
                 ll.addView(fila);
             }

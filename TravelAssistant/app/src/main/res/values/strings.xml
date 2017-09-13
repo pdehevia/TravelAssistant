@@ -172,7 +172,11 @@
 
     <!-- ADD RECOMS -->
     <string name="title_alert_create">Crear Recomendación</string>
-    <string name="text_alert_create">"¿Está seguro que deseas añadir esta recomendación?"</string>
+    <string name="text_alert_create">"¿Está seguro que desea añadir esta recomendación?"</string>
+    <string name="title_create_recom">Añadir Recomendación</string>
+    <!-- DEL RECOMS -->
+    <string name="title_alert_rec_result">Borrar Recomendación</string>
+    <string name="text_alert_delete_rec_result">"¿Está seguro que desea borrar esta recomendación?"</string>
 
     <!-- HISTORICAL -->
 
