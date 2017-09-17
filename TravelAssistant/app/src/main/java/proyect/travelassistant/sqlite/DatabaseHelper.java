@@ -21,6 +21,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_TABLE_QUERYS = "consulta";
     private static final String DATABASE_TABLE_RECOMES_FOR_QUERYS = "recomendaciones_para_consultas";
     private static final String DATABASE_TABLE_NOTIFS_FOR_QUERYS = "notificaciones_para_consultas";
+    private static final String DATABASE_TABLE_CUSTOMRECOMS_FOR_QUERYS = "recomendacionespersonalizadas_para_consultas";
 
     private static final int DATABASE_VERSION = 1;
 
@@ -97,6 +98,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + KEY_TEXT + " text not null, "
             + KEY_ACTIVE + " integer, "
             + KEY_TYPE + " integer, "
+            + "FOREIGN KEY ("+ KEY_ID_CONSULT +") REFERENCES " + DATABASE_TABLE_QUERYS + "("+KEY_ID+")"
+            + ");";
+
+    private static final String CREATE_DATABASE_TABLE_CUSTOMRECOMS_FOR_QUERYS = "create table "
+            + DATABASE_TABLE_CUSTOMRECOMS_FOR_QUERYS + " ("
+            + KEY_ID + " integer primary key autoincrement, "
+            + KEY_ID_CONSULT + " integer, "
+            + KEY_DESCRIPCION + " text not null, "
+            + KEY_DONE + " integer, "
             + "FOREIGN KEY ("+ KEY_ID_CONSULT +") REFERENCES " + DATABASE_TABLE_QUERYS + "("+KEY_ID+")"
             + ");";
 
@@ -191,6 +201,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_DATABASE_QUERYS);
         db.execSQL(CREATE_DATABASE_RECOMS_FOR_QUERYS);
         db.execSQL(CREATE_DATABASE_NOTIFS_FOR_QUERYS);
+        db.execSQL(CREATE_DATABASE_TABLE_CUSTOMRECOMS_FOR_QUERYS);
     }
 
     @Override
@@ -200,6 +211,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + CREATE_DATABASE_QUERYS);
         db.execSQL("DROP TABLE IF EXISTS " + CREATE_DATABASE_RECOMS_FOR_QUERYS);
         db.execSQL("DROP TABLE IF EXISTS " + CREATE_DATABASE_NOTIFS_FOR_QUERYS);
+        db.execSQL("DROP TABLE IF EXISTS " + CREATE_DATABASE_TABLE_CUSTOMRECOMS_FOR_QUERYS);
         onCreate(db);
     }
 
@@ -221,6 +233,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static String getDatabaseTableNotifsForQuerys() {
         return DATABASE_TABLE_NOTIFS_FOR_QUERYS;
+    }
+
+    public static String getDatabaseTableCustomrecomsForQuerys() {
+        return DATABASE_TABLE_CUSTOMRECOMS_FOR_QUERYS;
     }
 
     public static int getDatabaseVersion() {

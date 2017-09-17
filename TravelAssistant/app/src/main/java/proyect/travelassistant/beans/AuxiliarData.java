@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import proyect.travelassistant.beans.openweather.OpenWeatherResponseBean;
+import proyect.travelassistant.sqlite.CustomRecomsForConsult;
 
 /**
  * Created by Pablo on 02/08/2017.
@@ -16,6 +17,9 @@ public class AuxiliarData {
     private List<OpenWeatherResponseBean> itemsCarrousel = new ArrayList<>();
     private ScheduledInfoBean scheduledInfo = new ScheduledInfoBean();
     private int itemId;
+    private long consultId;
+    private boolean updateCustomRecoms;
+    private CustomRecomsForConsult customRecom;
 
     public AuxiliarData (){
 
@@ -50,5 +54,29 @@ public class AuxiliarData {
 
     public void setItemId(int itemId) {
         this.itemId = itemId;
+    }
+
+    public long getConsultId() {
+        return consultId;
+    }
+
+    public void setConsultId(long consultId) {
+        this.consultId = consultId;
+    }
+
+    public boolean isUpdateCustomRecoms() {
+        return updateCustomRecoms;
+    }
+
+    public void setUpdateCustomRecoms(boolean updateCustomRecoms) {
+        this.updateCustomRecoms = updateCustomRecoms;
+    }
+
+    public CustomRecomsForConsult getCustomRecom() {
+        return customRecom;
+    }
+
+    public void setCustomRecom(CustomRecomsForConsult customRecom) {
+        this.customRecom = customRecom;
     }
 }

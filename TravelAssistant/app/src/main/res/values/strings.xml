@@ -91,13 +91,16 @@
     Para que la aplicación pueda aconsejarle de forma precisa, es necesario que introduzca una serie de parámetros, tales como la duración o el motivo del viaje.\n\n
     Esta información no se comparte con ninguna empresa o entidad externa, y su única finalidad es aportarle recomendaciones más efectivas.\n\n
     Si la búsqueda ha tenido éxito podrá observar un listado con las recomendaciones para su viaje en función de los parámetros especificados.\n\n
+    Como siempre, tienes el control para modificar esta lista a tu criterio, marcando las recomendaciones como pendientes/realizadas, o eliminando aquellas que no consideres interesantes.\n\n
+    Al final del listado, se mostrarán las recomendaciones personalizadas de tu consulta. Aquí puedes añadir todas las recomendaciones que necesites y que solo quieres que afecten a tu consulta actual.\n\n
     Además, podrá consultar la información detalla sobre el clima en los días de su viaje, así como un histórico del clima por meses para la localización seleccionada.</string>
     <string name="use_app_expl_1_2">Y si lo no necesitas, puedes activar una notificación referente a tu búsqueda para que recuerdes lo que necesites.
     Solo has de buscar el icono de notificaciones y rellenar los campos correspondientes.</string>
     <string name="use_app_expl_2">Con la sección \"VER HISTORIAL DE CONSULTAS\" podrás consultar resultados de búsquedas anteriores.\n\n
     Puesto que la información meteorológica es cambiante, en el historial simplemente verá un resumen de la información que se obtuvo en el momento de la búsqueda, haciendo especial hincapié en su lista de recomendaciones.</string>
-    <string name="use_app_expl_2_2">Por ese motivo, si lo necesitas puedes actualizar tu consulta pulsando en el botón de "refrescar consulta"</string>
-    <string name="use_app_expl_2_3">Al igual que en la sección \"NUEVA CONSULTA\", puedes activar/editar las notificaciones cuando lo desees.\n\n
+    <string name="use_app_expl_2_2">Por ese motivo, si lo necesitas puedes actualizar tu consulta pulsando en el botón de "refrescar consulta".</string>
+    <string name="use_app_expl_2_3">Queda en tu mano la gestión del listado de recomendaciones (puedes añadir nuevas, borrars las existentes, etc).\n\n
+    Al igual que en la sección \"NUEVA CONSULTA\", puedes editar las notificaciones cuando lo desees.\n\n
     Solo puedes activar una notificación por consulta, aunque si lo deseas puedes personalizarlas para no olvidar nada.\n\n
     Por otro lado, la aplicación si acepta notificaciones simultáneas si son de consultas diferentes.</string>
     <string name="use_app_expl_2_4">Cualquier elemento que marque en la lista será almacenado como "Realizado", para que pueda hacer un seguimiento de lo que tiene y de lo que le falta por incluir en su equipaje.\n\n
@@ -177,6 +180,14 @@
     <!-- DEL RECOMS -->
     <string name="title_alert_rec_result">Borrar Recomendación</string>
     <string name="text_alert_delete_rec_result">"¿Está seguro que desea borrar esta recomendación?"</string>
+
+    <!-- CUSTOM RECOMS -->
+    <string name="title_custom_recoms">Recomendaciones personalizadas</string>
+    <string name="title_custom_recoms_create">Crear Recomendación</string>
+    <string name="description_custom_recoms">Descripción:</string>
+
+    <string name="title_error_custom_recom">El campo descripción es obligatorio</string>
+    <string name="text_error_custom_recom">"Por favor introduzca la descripción de su recomendación"</string>
 
     <!-- HISTORICAL -->
 

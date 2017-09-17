@@ -24,12 +24,12 @@
                 android:layout_marginBottom="20dp"/>
 
             <TextView
-                android:text="@string/use_app_text"
+                style="@style/Style_Help_Gral"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
                 android:layout_marginBottom="40dp"
-                style="@style/Style_Help_Gral"/>
+                android:text="@string/use_app_text"
+                android:textColor="@android:color/black" />
 
             <LinearLayout
                 android:layout_width="match_parent"

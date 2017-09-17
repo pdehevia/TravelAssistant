@@ -19,6 +19,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.text.ParseException;
@@ -38,15 +39,16 @@ import proyect.travelassistant.beans.worldweather.WeatherBean;
 import proyect.travelassistant.sqlite.Consult;
 import proyect.travelassistant.sqlite.ConsultsDB;
 import proyect.travelassistant.sqlite.CriteryDB;
+import proyect.travelassistant.sqlite.CustomRecomsForConsult;
+import proyect.travelassistant.sqlite.CustomRecomsForConsultDB;
 import proyect.travelassistant.sqlite.NotifForConsult;
 import proyect.travelassistant.sqlite.NotifForConsultDB;
 import proyect.travelassistant.sqlite.Recom;
-import proyect.travelassistant.sqlite.RecomsForConsult;
 import proyect.travelassistant.sqlite.RecomsForConsultDB;
 import proyect.travelassistant.sqlite.RecomsDB;
 
-public class FragmentTabResultsRecom extends Fragment {
-
+public class FragmentTabResultsRecom extends Fragment{
+    private ScrollView scrollViewRecoms;
     private LinearLayout ll;
     private long idConsulta;
     private boolean guardado;
@@ -59,6 +61,7 @@ public class FragmentTabResultsRecom extends Fragment {
     private Map<Long,Boolean> recomsCheckExists = new HashMap<>();
     private Map<Long,Boolean> recomsVisibleExists = new HashMap<>();
     private List<Long>  drawRecomsExists = new ArrayList<>();
+    private List<CustomRecomsForConsult> customRecoms = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -71,6 +74,7 @@ public class FragmentTabResultsRecom extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tab_resultados_recomendaciones, container, false);
 
+        scrollViewRecoms = (ScrollView) view.findViewById(R.id.scrollViewRecoms);
         ll = (LinearLayout) view.findViewById(R.id.linearLayoutRecoms);
         ra = (ResultActivity) getActivity();
 
@@ -80,6 +84,7 @@ public class FragmentTabResultsRecom extends Fragment {
         recomsCheckExists.clear();
         drawRecomsExists.clear();
         recomsVisibleExists.clear();
+        customRecoms.clear();
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         String currentDateandTime = sdf.format(new Date());
@@ -121,7 +126,12 @@ public class FragmentTabResultsRecom extends Fragment {
         DrawRecoms();
 
         //FOOTER
-        //drawFooter();
+        CustomRecomsForConsultDB customRecomsForConsultDB = new CustomRecomsForConsultDB(getContext());
+        customRecomsForConsultDB.open();
+        customRecoms = customRecomsForConsultDB.getCustomRecomsForConsult(idConsulta);
+        customRecomsForConsultDB.close();
+
+        drawFooter();
 
         return view;
     }
@@ -303,7 +313,7 @@ public class FragmentTabResultsRecom extends Fragment {
             pintarRecomendacionesParaCriterio(getResources().getString(R.string.title_recom_10),10,false);
         }
 
-        insertaLabelVacio();
+        //insertaLabelVacio();
 
         guardado = true;
 
@@ -376,23 +386,179 @@ public class FragmentTabResultsRecom extends Fragment {
     }
 
     private void drawFooter(){
-        Button btnAddRecom1 = new Button(getContext());
-        LinearLayout.LayoutParams parBtn1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        parBtn1.setMargins(10,10,20,10);
-        btnAddRecom1.setLayoutParams(parBtn1);
-        btnAddRecom1.setPadding(10,10,10,10);
-        btnAddRecom1.setBackgroundResource(R.drawable.custom_btn);
-        btnAddRecom1.setText(R.string.title_create_recom);
-        btnAddRecom1.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
-        btnAddRecom1.setTypeface(Typeface.DEFAULT_BOLD);
-        btnAddRecom1.setOnClickListener(new View.OnClickListener() {
+
+        LinearLayout linearTitulo = new LinearLayout(getContext());
+        linearTitulo.setOrientation(LinearLayout.HORIZONTAL);
+        LinearLayout.LayoutParams paramsLinearTitl= new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        paramsLinearTitl.setMargins(5,20,20,5);
+        linearTitulo.setLayoutParams(paramsLinearTitl);
+        linearTitulo.setGravity(Gravity.CENTER);
+        linearTitulo.setWeightSum(10);
+
+        LinearLayout leftColumn = new LinearLayout((getContext()));
+        leftColumn.setOrientation(LinearLayout.HORIZONTAL);
+        LinearLayout.LayoutParams paramsLeftColumn= new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT,8.5f);
+        leftColumn.setLayoutParams(paramsLeftColumn);
+        leftColumn.setGravity(Gravity.CENTER);
+
+        LinearLayout rightColumn = new LinearLayout((getContext()));
+        rightColumn.setOrientation(LinearLayout.HORIZONTAL);
+        LinearLayout.LayoutParams paramsRightColumn= new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT,1.5f);
+        rightColumn.setLayoutParams(paramsRightColumn);
+        rightColumn.setGravity(Gravity.CENTER);
+
+        linearTitulo.addView(leftColumn);
+        linearTitulo.addView(rightColumn);
+
+        ImageView imgTitle = new ImageView(getContext());
+        RelativeLayout.LayoutParams paramsImg = new RelativeLayout.LayoutParams(100, 100);
+        paramsImg.setMargins(0,0,0,0);
+        imgTitle.setLayoutParams(paramsImg);
+
+        imgTitle.setImageResource(R.drawable.cat_custom);
+        int color = ContextCompat.getColor(getContext(), R.color.colorCustomCat);
+        leftColumn.addView(imgTitle);
+
+        TextView tvTitle = new TextView(getContext());
+        tvTitle.setText(R.string.title_custom_recoms);
+        TextViewCompat.setTextAppearance(tvTitle, R.style.Style_Recoms_Title);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.setMargins(10,0,0,0);
+        tvTitle.setLayoutParams(params);
+        leftColumn.addView(tvTitle);
+        tvTitle.setTextColor(color);
+
+        ImageButton imgBtn = new ImageButton(getContext());
+        imgBtn.setImageResource(R.drawable.custom_btn_add_custom);
+        imgBtn.setBackgroundColor(Color.TRANSPARENT);
+        LinearLayout.LayoutParams paramsBtn = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        imgBtn.setLayoutParams(paramsBtn);
+        imgBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                AuxiliarData.getSingletonInstance().setConsultId(idConsulta);
+                AuxiliarData.getSingletonInstance().setUpdateCustomRecoms(false);
+                FragmentCustomRecomCreate fcrc = new FragmentCustomRecomCreate();
+                fcrc.setTargetFragment(FragmentTabResultsRecom.this, 0);
+                fcrc.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        if(AuxiliarData.getSingletonInstance().isUpdateCustomRecoms()){
+                            CustomRecomsForConsult customRecom = AuxiliarData.getSingletonInstance().getCustomRecom();
+                            AuxiliarData.getSingletonInstance().setCustomRecom(null);
+                            AuxiliarData.getSingletonInstance().setUpdateCustomRecoms(false);
+                            customRecoms.add(customRecom);
+                            drawCustomRecom(customRecoms.size()-1,customRecom);
+                            scrollViewRecoms.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    scrollViewRecoms.fullScroll(ScrollView.FOCUS_DOWN);
+                                }
+                            });
+                        }
+                    }
+                });
+                fcrc.show(getFragmentManager(),"CustomRecomFragment");
             }
         });
-        ll.addView(btnAddRecom1);
-        insertaLabelVacio();
+        rightColumn.addView(imgBtn);
+
+        ll.addView(linearTitulo);
+
+        for(int i=0;i<customRecoms.size();i++){
+            CustomRecomsForConsult customRecom = customRecoms.get(i);
+            drawCustomRecom(i, customRecom);
+        }
+    }
+
+    private void drawCustomRecom(int i, CustomRecomsForConsult customRecom) {
+        final LinearLayout fila = new LinearLayout(getContext());
+        fila.setOrientation(LinearLayout.HORIZONTAL);
+        LinearLayout.LayoutParams paramsFila= new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        paramsFila.setMargins(10,0,0,5);
+        fila.setLayoutParams(paramsFila);
+        fila.setGravity(Gravity.CENTER);
+        fila.setWeightSum(10);
+
+        LinearLayout leftColumn = new LinearLayout((getContext()));
+        leftColumn.setOrientation(LinearLayout.HORIZONTAL);
+        LinearLayout.LayoutParams paramsLeftColumn= new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT,8);
+        leftColumn.setLayoutParams(paramsLeftColumn);
+        leftColumn.setGravity(Gravity.CENTER);
+
+        LinearLayout rightColumn = new LinearLayout((getContext()));
+        rightColumn.setOrientation(LinearLayout.HORIZONTAL);
+        LinearLayout.LayoutParams paramsRightColumn= new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT,2);
+        rightColumn.setLayoutParams(paramsRightColumn);
+        rightColumn.setGravity(Gravity.CENTER);
+
+        fila.addView(leftColumn);
+        fila.addView(rightColumn);
+
+
+        final CheckBox checkBox = new CheckBox(getContext());
+        checkBox.setTag(i);
+        checkBox.setChecked(customRecom.isDone());
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CustomRecomsForConsultDB customRecomsForConsultDB = new CustomRecomsForConsultDB(getContext());
+                customRecomsForConsultDB.open();
+                int index = (int) checkBox.getTag();
+                customRecomsForConsultDB.updateCustomRecomForConsulta(
+                        customRecoms.get(index).getId(),
+                        customRecoms.get(index).getConsulta(),
+                        customRecoms.get(index).getDescripcion(),
+                        checkBox.isChecked());
+                customRecomsForConsultDB.close();
+            }
+        });
+        leftColumn.addView(checkBox);
+
+        final TextView tvRecomen = new TextView(getContext());
+        tvRecomen.setText(customRecom.getDescripcion());
+        recomsDescriptions.add(customRecom.getDescripcion());
+        TextViewCompat.setTextAppearance(tvRecomen, R.style.Style_Recoms);
+
+        LinearLayout.LayoutParams paramsAux = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        paramsAux.setMargins(10,0,0,5);
+        tvRecomen.setLayoutParams(paramsAux);
+
+        leftColumn.addView(tvRecomen);
+
+        final ImageButton imgBtn = new ImageButton(getContext());
+        imgBtn.setImageResource(R.drawable.delete_row);
+        imgBtn.setBackgroundColor(Color.TRANSPARENT);
+        LinearLayout.LayoutParams paramsBtn = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        imgBtn.setLayoutParams(paramsBtn);
+        imgBtn.setTag(i);
+        imgBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(getContext())
+                        .setTitle(getString(R.string.title_alert_rec_result))
+                        .setMessage(getString(R.string.text_alert_delete_rec_result))
+                        .setPositiveButton(getString(R.string.accept), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                CustomRecomsForConsultDB customRecomsForConsultDB = new CustomRecomsForConsultDB(getContext());
+                                customRecomsForConsultDB.open();
+                                int index = (int) imgBtn.getTag();
+                                customRecomsForConsultDB.deleteCustomRecomForConsult(customRecoms.get(index).getId());
+                                recomsDescriptions.remove(customRecoms.get(index).getDescripcion());
+                                customRecoms.remove(index);
+                                customRecomsForConsultDB.close();
+                                fila.setVisibility(View.GONE);
+                            }
+                        })
+                        .setIcon(R.drawable.ic_warning)
+                        .setNegativeButton(getString(R.string.cancel), null)
+                        .setCancelable(false)
+                        .show();
+            }
+        });
+        rightColumn.addView(imgBtn);
+
+        ll.addView(fila);
     }
 
     private void pintarRecomendacionesParaCriterio(String titulo, int criterio, boolean pintarLineaSep){
@@ -832,4 +998,5 @@ public class FragmentTabResultsRecom extends Fragment {
         tvkk.setText("");
         ll.addView(tvkk);
     }
+
 }
